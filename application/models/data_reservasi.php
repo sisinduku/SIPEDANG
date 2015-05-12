@@ -8,40 +8,23 @@
 class DataReservasi extends CI_Model {
 	
 	/**
-	 * Konstruktor kelas Model DataReservasi
+	 * @param array $data array yang berisi namaTamu, kegiatan, waktuMulaiPinjam, waktuSelesaiPinjam, waktuReservasi, penyelenggara, kategoriKegiatan, deskripsiKegiatan, statusReservasi
+	 * @return NULL|string error
 	 */
-	function __construct()
-	{
-		$this->load->database('db_sipedang');
-	}
-	
-	/**
-	 * Fungsi untuk menambahkan kegiatan baru
-	 * @param string $namaTamu Nama peminjam
-	 * @param string $kegiatan Nama kegiatan yang ingin diselenggarakan
-	 * @param DateTime $waktuMulaiPinjam Waktu mulai peminjaman
-	 * @param DateTime $waktuSelesaiPinjam Waktu berakhir peminjaman
-	 * @param DateTime $waktuReservasi Waktu peminjam melakukan reservasi
-	 * @param string $penyelenggara Instansi/Organisasi peminjam
-	 * @param int $kategoriKegiatan Kategori kegiatan yang ingin diselanggarakan [0 = Seminar PKL, 1 = Seminar TA1, 2 = Himpunan/Organisasi, 3 = Jurusan, 4 = Lain-lain]
-	 * @param string $deskripsiKegiatan Deskripsi kegiatan yang akan diselenggarakan
-	 * @param int $statusReservasi Status reservasi tersebut [0 = Pending, 1 = Accepted, 2 = Expired, 3 = Rejected] default = 0
-	 * @return null jika sukses dan keterangan gagal jika gagal
-	 */
-	function set_kegiatan($namaTamu, $kegiatan, $waktuMulaiPinjam, $waktuSelesaiPinjam, $waktuReservasi, $penyelenggara, $kategoriKegiatan, $deskripsiKegiatan, $statusReservasi=0) {
+	function set_kegiatan($data) {
 		
 		$query = "INSERT INTO tbl_data_reservasi (namaTamu, kegiatan, waktuMulaiPinjam, waktuSelesaiPinjam, waktuReservasi, penyelenggara, kategoriKegiatan, deskripsiKegiatan, statusReservasi)";
 		
 		$query .= sprintf(" VALUES(%s, %s, %s, %s, %s, %s, %d, %s, %d)",
-							$this->db->escape($namaTamu),
-							$this->db->escape($kegiatan),
-							$this->db->escape($waktuMulaiPinjam),
-							$this->db->escape($waktuSelesaiPinjam),
-							$this->db->escape($waktuReservasi),
-							$this->db->escape($penyelenggara),
-							kategoriKegiatan,
-							$this->db->escape($deskripsiKegiatan),
-							$statusReservasi
+							$this->db->escape($data['namaTamu']),
+							$this->db->escape($data['kegiatan']),
+							$this->db->escape($data['waktuMulaiPinjam']),
+							$this->db->escape($data['waktuSelesaiPinjam']),
+							$this->db->escape($data['waktuReservasi']),
+							$this->db->escape($data['penyelenggara']),
+							$data['kategoriKegiatan'],
+							$this->db->escape($data['deskripsiKegiatan']),
+							$data['statusReservasi']
 						);
 		if($this->db->query($query) === true){
 			return null;
@@ -97,13 +80,12 @@ class DataReservasi extends CI_Model {
 	 * @return DataReservasi Object reserasi berdasarkan idReservasi
 	 */
 	function get_kegiatan_by_id($idReservasi){
-		global $mysqli; //Koneksi Database
 		
 		$query = sprintf("SELECT * FROM tbl_data_reservasi WHERE idReservasi = %d", $idReservasi);
 		
-		$result = $mysqli->query($query);
+		$result = $this->db->query($query);
 		
-		$row = $result->fetch_array(MYSQLI_ASSOC);
+		$row = $result->result_array();
 		return $row;
 	}
 	
