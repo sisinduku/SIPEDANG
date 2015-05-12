@@ -8,6 +8,14 @@
 class DataReservasi extends CI_Model {
 	
 	/**
+	 * Konstruktor kelas Model DataReservasi
+	 */
+	function __construct()
+	{
+		$this->load->database('db_sipedang');
+	}
+	
+	/**
 	 * Fungsi untuk menambahkan kegiatan baru
 	 * @param string $namaTamu Nama peminjam
 	 * @param string $kegiatan Nama kegiatan yang ingin diselenggarakan
@@ -21,25 +29,24 @@ class DataReservasi extends CI_Model {
 	 * @return null jika sukses dan keterangan gagal jika gagal
 	 */
 	function set_kegiatan($namaTamu, $kegiatan, $waktuMulaiPinjam, $waktuSelesaiPinjam, $waktuReservasi, $penyelenggara, $kategoriKegiatan, $deskripsiKegiatan, $statusReservasi=0) {
-		global $mysqli; //Koneksi Database
 		
 		$query = "INSERT INTO tbl_data_reservasi (namaTamu, kegiatan, waktuMulaiPinjam, waktuSelesaiPinjam, waktuReservasi, penyelenggara, kategoriKegiatan, deskripsiKegiatan, statusReservasi)";
 		
-		$query .= sprintf(" VALUES('%s', '%s', '%s', '%s', '%s', '%s', %d, '%s', %d)",
-							$mysqli->real_escape_string($namaTamu),
-							$mysqli->real_escape_string($kegiatan),
-							$mysqli->real_escape_string($waktuMulaiPinjam),
-							$mysqli->real_escape_string($waktuSelesaiPinjam),
-							$mysqli->real_escape_string($waktuReservasi),
-							$mysqli->real_escape_string($penyelenggara),
+		$query .= sprintf(" VALUES(%s, %s, %s, %s, %s, %s, %d, %s, %d)",
+							$this->db->escape($namaTamu),
+							$this->db->escape($kegiatan),
+							$this->db->escape($waktuMulaiPinjam),
+							$this->db->escape($waktuSelesaiPinjam),
+							$this->db->escape($waktuReservasi),
+							$this->db->escape($penyelenggara),
 							kategoriKegiatan,
-							$mysqli->real_escape_string($deskripsiKegiatan),
+							$this->db->escape($deskripsiKegiatan),
 							$statusReservasi
 						);
-		if($mysqli->query($query) === true){
+		if($this->db->query($query) === true){
 			return null;
 		}else{
-			return "Kegiatan gagal ditambahkan : ".$mysqli->error;
+			return "Kegiatan gagal ditambahkan : ".$this->db->error();
 		}
 	}
 	
@@ -51,32 +58,36 @@ class DataReservasi extends CI_Model {
 	 * @return null jika sukses dan "Query failed!" jika gagal 
 	 */
 	function set_status_reservasi($idReservasi, $statusReservasi){
-		global $mysqli; //Koneksi Database
 		
 		$query = sprintf("UPDATE tbl_data_reservasi SET statusReservasi=%d WHERE id=%d", 
 							$statusReservasi, $idReservasi);
 		
-		$result = $mysqli->query($query);
-		if ($result === false) return ("Query failed!");
+		$result = $this->db->query($query);
+		if ($result === false) return ("Query failed! : ".$this->db->error());
 	}
 	
+	
 	/**
-	 * Fungsi untuk mengambil semua kegiatan
-	 * @return multitype:array Array yang berisi objek-objek kegiatan
+	 * Fungsi untuk mendapatkan kegiatan, jika parameter diisi maka akan didapatkan kegiatan berdasarkan statusnya
+	 * @param int $statusReservasi Status reservasi tersebut [0 = Pending, 1 = Accepted, 2 = Expired, 3 = Rejected] Default null
+	 * @return multitype:unknown 
 	 */
-	function get_kegiatan(){
-		global $mysqli; //Koneksi Database
+	function get_kegiatan($statusReservasi = null){
 		
 		$query = "SELECT * FROM tbl_data_reservasi";
 		
-		$result = $mysqli->query($query);
+		if ($statusReservasi != null)
+			$query .= " WHERE statusReservasi = ".$statusReservasi;
+		
+		$result = $this->db->query($query);
 		$index = 0;
 		$query_result = array();
 		
-		while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
+		foreach ($result->result_array() as $row){
 			$query_result[$index] = $row;
 			$index++;
 		}
+		
 		return $query_result;
 	}
 	
@@ -96,24 +107,5 @@ class DataReservasi extends CI_Model {
 		return $row;
 	}
 	
-	/**
-	 * Fungsi untuk mengambil kegiatan berdasarkan statusReservasi
-	 * @param int $statusReservasi Status reservasi tersebut [0 = Pending, 1 = Accepted, 2 = Expired, 3 = Rejected]
-	 * @return multitype:array Array yang berisi objek-objek kegiatan
-	 */
-	function get_kegiatan_by_status($statusReservasi){
-		global $mysqli; //Koneksi Database
-		
-		$query = sprintf("SELECT * FROM tbl_data_reservasi WHERE statusReservasi = %d", $statusReservasi);
-		
-		$result = $mysqli->query($query);
-		$index = 0;
-		$query_result = array();
-		
-		while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
-			$query_result[$index] = $row;
-			$index++;
-		}
-		return $query_result;
-	}
+	
 }
