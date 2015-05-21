@@ -39,7 +39,7 @@ class DataPengelola extends CI_Model{
 		$query = "SELECT * FROM tbl_data_pengelola";
 		$result = $this->db->query($query);
 		
-		$row = $result->result_array();
+		$row = $result->row_array();
 		return $row;
 	}
 	
