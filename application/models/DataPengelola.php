@@ -22,7 +22,7 @@ class DataPengelola extends CI_Model{
 		$this->db->select('username');
 		$result = $this->db->get('tbl_data_pengelola', 1);
 		
-		$row = $result->row_array();
+		$row = $result->row();
 		return $row;
 	}
 	
@@ -34,7 +34,7 @@ class DataPengelola extends CI_Model{
 		$this->db->select('password');
 		$result = $this->db->get('tbl_data_pengelola', 1);
 	
-		$row = $result->row_array();
+		$row = $result->row();
 		return $row;
 	}
 	
@@ -45,7 +45,7 @@ class DataPengelola extends CI_Model{
 	function get_data_pengelola(){
 		$result = $this->db->get('tbl_data_pengelola');
 		
-		$row = $result->result_array();
+		$row = $result->result();
 		return $row;
 	}
 	
