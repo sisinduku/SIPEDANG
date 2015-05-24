@@ -8,7 +8,13 @@
 class DataReservasi extends CI_Model {
 	
 	private $idReservasi, $namaTamu, $kegiatan, $gambar, $waktuMulaiPinjam, $waktuSelesaiPinjam, $waktuReservasi, $penyelenggara, $kategoriKegiatan, $deskripsiKegiatan, $statusReservasi;
-	
+	private $listKategori = array(
+			1 => "Seminar PKL",
+			2 => "Seminar TA",
+			3 => "Kegiatan Jurusan",
+			4 => "Kegiatan Organisasi",
+			99 => "Lain-lain"
+	);
 	public function __construct(){
 		// Call the CI_Model constructor
 		parent::__construct();
@@ -19,7 +25,6 @@ class DataReservasi extends CI_Model {
 	 * @return NULL|string error
 	 */
 	function set_kegiatan() {
-		
 		$this->namaTamu = $this->input->post('namaTamu');
 		$this->kegiatan = $this->input->post('kegiatan');
 		$this->gambar = $this->input->post('gambar');
@@ -32,8 +37,8 @@ class DataReservasi extends CI_Model {
 		$this->deskripsiKegiatan = $this->input->post('deskripsiKegiatan');
 		$this->statusReservasi = 0;
 		
-		$data = array('namaTamu' => $this->namaTamu, 'kegiatan' => $this->kegiatan, 'gambar' => $this->gambar, 'waktuMulaiPinjam' => $this->waktuMulaiPinjam
-						'waktuSelesaiPinjam' => $this->waktuSelesaiPinjam, 'waktuReservasi' => $this->waktuReservasi, 'penyelenggara' => $this->penyelenggara
+		$data = array('namaTamu' => $this->namaTamu, 'kegiatan' => $this->kegiatan, 'gambar' => $this->gambar, 'waktuMulaiPinjam' => $this->waktuMulaiPinjam,
+						'waktuSelesaiPinjam' => $this->waktuSelesaiPinjam, 'waktuReservasi' => $this->waktuReservasi, 'penyelenggara' => $this->penyelenggara,
 						'kategoriKegiatan' => $this->kategoriKegiatan, 'deskripsiKegiatan' => $this->deskripsiKegiatan, 'statusReservasi' => $this->statusReservasi);
 		
 		$this->db->insert('tbl_data_reservasi', $data);
@@ -67,16 +72,20 @@ class DataReservasi extends CI_Model {
 	 * @param int $statusReservasi Status reservasi tersebut [0 = Pending, 1 = Accepted, 2 = Expired, 3 = Rejected] Default null
 	 * @return multitype:unknown 
 	 */
-	function get_kegiatan($statusReservasi = null){
+	function get_kegiatan($statusReservasi = null, $limit = -1){
 		
 		if ($statusReservasi != null)
 			$this->db->where('statusReservasi', $statusReservasi);
+		if ($limit > 0)
+			$this->db->limit($limit);
+		
+		$this->db->order_by("waktuMulaiPinjam ASC");
 		
 		$result = $this->db->get('tbl_data_reservasi');
 		$index = 0;
 		$query_result = array();
 		
-		foreach ($result->result_array() as $row){
+		foreach ($result->result() as $row){
 			$query_result[$index] = $row;
 			$index++;
 		}
@@ -96,6 +105,5 @@ class DataReservasi extends CI_Model {
 		$row = $result->row_array();
 		return $row;
 	}
-	
 	
 }

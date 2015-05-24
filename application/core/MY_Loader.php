@@ -80,17 +80,10 @@ class MY_Loader extends CI_Loader {
 
 	public function template_admin($template_name, $vars = array(), $return = FALSE)
     {
-        $content  = $this->view('admin/header', $vars, $return);
-		$content .= $this->append_output("<div id='site_content'>\n<div id='site_content_left'>");
-		$content .= $this->view($template_name, $vars, $return);
-		$content .= $this->append_output("</div>\n<div id='site_content_right'>");
-		$content .= $this->view('admin/sidebar', $vars, $return);
-		$content .= $this->append_output("</div>");
-        $content .= $this->view('admin/footer', $vars, $return);
-		
-        if ($return) {
-            return $content;
-        }
+        $this->view('admin/skin/header', $vars, $return);
+		$this->view('admin/skin/navigasi', $vars, $return);
+		$this->view($template_name, $vars, $return);
+        $this->view('admin/skin/footer', $vars, $return);
     }
 	public function template_admin_full($template_name, $vars = array(), $return = FALSE)
     {

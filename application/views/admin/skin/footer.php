@@ -1,4 +1,16 @@
-<!-- jQuery -->
+						</div>
+                    <!-- /.col-lg-12 -->
+                </div>
+                <!-- /.row -->
+            </div>
+            <!-- /.container-fluid -->
+        </div>
+        <!-- /#page-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+    
+	<!-- jQuery -->
     <script src="<?php echo base_url('assets/bower_components/jquery/dist/jquery.min.js')?>"></script>
 
     <!-- Bootstrap Core JavaScript -->
