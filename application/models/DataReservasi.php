@@ -7,7 +7,12 @@
  */
 class DataReservasi extends CI_Model {
 	
-	private $idReservasi, $namaTamu, $kegiatan, $gambar, $waktuMulaiPinjam, $waktuSelesaiPinjam, $waktuReservasi, $penyelenggara, $kategoriKegiatan, $deskripsiKegiatan, $statusReservasi;
+	const STAT_PENDING = 0;
+	const STAT_ACCEPTED = 1;
+	const STAT_EXPIRED = 2;
+	const STAT_REJECTED = 3;
+	
+	private $idReservasi, $kodeReservasi, $namaTamu, $email, $kontak, $kegiatan, $gambar, $waktuMulaiPinjam, $waktuSelesaiPinjam, $waktuReservasi, $penyelenggara, $kategoriKegiatan, $deskripsiKegiatan, $statusReservasi;
 	private $listKategori = array(
 			1 => "Seminar PKL",
 			2 => "Seminar TA",
@@ -21,10 +26,11 @@ class DataReservasi extends CI_Model {
 	}
 	
 	/**
-	 * @param array $data array yang berisi namaTamu, kegiatan, waktuMulaiPinjam, waktuSelesaiPinjam, waktuReservasi, penyelenggara, kategoriKegiatan, deskripsiKegiatan, statusReservasi
+	 * Fungsi untuk menambah kegiatan
 	 * @return NULL|string error
 	 */
 	function set_kegiatan() {
+		
 		$this->namaTamu = $this->input->post('namaTamu');
 		$this->kegiatan = $this->input->post('kegiatan');
 		$this->gambar = $this->input->post('gambar');
@@ -44,6 +50,10 @@ class DataReservasi extends CI_Model {
 		$this->db->insert('tbl_data_reservasi', $data);
 		
 		if($this->db->affected_rows() != 0){
+			$rand = substr(md5(microtime()),rand(0,26),5);
+			$insert_id = $this->db->insert_id();
+			$this->kodeReservasi = $insert_id.$rand;
+			$this->db->update('tbl_data_reservasi', array('kodeReservasi'=>$this->kodeReservasi), array('idReservasi'=>$insert_id));
 			return null;
 		}else{
 			return "Kegiatan gagal ditambahkan : ".$this->db->error();
@@ -53,8 +63,6 @@ class DataReservasi extends CI_Model {
 	
 	/**
 	 * Fungsi untuk merubah status dari reservasi yang sudah dibuat
-	 * @param int $idReservasi ID dari reservasi yang dilakukan
-	 * @param int $statusReservasi Status reservasi tersebut [0 = Pending, 1 = Accepted, 2 = Expired, 3 = Rejected]
 	 * @return null jika sukses dan "Query failed!" jika gagal 
 	 */
 	function set_status_reservasi(){
@@ -69,15 +77,16 @@ class DataReservasi extends CI_Model {
 	
 	/**
 	 * Fungsi untuk mendapatkan kegiatan, jika parameter diisi maka akan didapatkan kegiatan berdasarkan statusnya
-	 * @param int $statusReservasi Status reservasi tersebut [0 = Pending, 1 = Accepted, 2 = Expired, 3 = Rejected] Default null
 	 * @return multitype:unknown 
 	 */
-	function get_kegiatan($statusReservasi = null, $limit = -1){
+	function get_kegiatan($statusReservasi = null, $limit = -1, $limitTanggal = null){
 		
 		if ($statusReservasi != null)
 			$this->db->where('statusReservasi', $statusReservasi);
 		if ($limit > 0)
 			$this->db->limit($limit);
+		if($limitTanggal != null)
+			$this->db->where('waktuMulaiPinjam >=', $limitTanggal);
 		
 		$this->db->order_by("waktuMulaiPinjam ASC");
 		
@@ -95,14 +104,13 @@ class DataReservasi extends CI_Model {
 	
 	/**
 	 * Fungsi untuk mengambil kegiatan berdasarkan idReservasi
-	 * @param int $idReservasi ID dari reservasi yang dilakukan
 	 * @return DataReservasi Object reserasi berdasarkan idReservasi
 	 */
 	function get_kegiatan_by_id($idReservasi){
 		
 		$result = $this->db->get_where('tbl_data_reservasi', array('idReservasi'=>$idReservasi), 1);
 		
-		$row = $result->row_array();
+		$row = $result->row();
 		return $row;
 	}
 	
