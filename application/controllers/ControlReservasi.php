@@ -13,7 +13,7 @@ class ControlReservasi extends CI_Controller {
 	{
 		//$this->load->template_admin("home.php");
 		$this->load->model("DataReservasi");
-		$data['kegiatanTerdekat'] = $this->DataReservasi->get_kegiatan(null, 1);
+		$data['kegiatanTerdekat'] = $this->DataReservasi->get_kegiatan(1, 5);
 		$this->load->view("template", $data);
 	}
 }
