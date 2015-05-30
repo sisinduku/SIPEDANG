@@ -26,7 +26,7 @@ class ControlReservasi extends CI_Controller {
 	public function login() {
 		$data['pageTitle'] = "Administrator";
 		$data['simplePage'] = true;
-		$this->load->template_admin("admin/form_login", $data);
+		$this->load->view("admin/form_login", $data);
 	}
 	
 	public function list_reservasi($statusReservasi = "pending") {
