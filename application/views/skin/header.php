@@ -64,6 +64,76 @@
     <div class="container" role="main" id="sipedang_body">
 		<div class="row">
 			<img src="<?php echo base_url("/assets/images/header_home.jpg"); ?>" alt="SiPedang" style="width:100%;" />
+			<form>
+				<div class="row" style="padding-left:5px; padding-top:10px;">
+					<div class="col-md-6">
+						<div class="form-horizontal" >
+							<div class="form-group">
+								<label class="col-sm-3 control-label" style="text-align:left; padding-left:30px;">Nama Kegiatan</label>
+								<div class="col-sm-6">
+									<input type="text" required name="sipedang_namakegiatan" class="form-control" id="sipedang_namakegiatan" placeholder="Masukan Nama Kegiatan"/>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label" style="text-align:left; padding-left:30px;">Pemesan</label>
+								<div class="col-sm-6">
+									<input type="text" required name="sipedang_pemesan" class="form-control" id="sipedang_pemesan" placeholder="Masukan Nama Pemesan"/>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label" style="text-align:left; padding-left:30px;">Penyelenggara</label>
+								<div class="col-sm-6">
+									<input type="text" required name="sipedang_penyelenggara" class="form-control" id="sipedang_penyelenggara" placeholder="Masukan Penyelenggara"/>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label" style="text-align:left; padding-left:30px;">Kategori</label>
+								<div class="col-sm-6">
+									<select name="sipedang_kategori" required class="form-control" id="sipedang_kategori" onchange="pilih_tambah_kategori()">
+										<option value="">--Pilih Kategori Event--</option>
+										<option value="1">Seminar PKL</option>
+										<option value="2">Seminar TA</option>
+										<option value="3">Kegiatan Jurusan</option>
+										<option value="4">Kegiatan Organisasi</option>
+										<option value="5">Lain-Lain</option>
+									</select></br>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<div class="col-md-6" >
+						<div class="form-horizontal">
+							<div class="form-group">
+								<label class="col-sm-4 control-label" style="text-align:left;">Waktu Pelaksanaan</label>
+								<div class="col-sm-6">
+									<input type="text" required name="sipedang_waktupelaksanaan" class="form-control" id="sipedang_namakegiatan" placeholder="Masukan Nama Kegiatan"/>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-4 control-label" style="text-align:left;">E-Mail</label>
+								<div class="col-sm-6">
+									<input type="email" required name="sipedang_email" class="form-control" id="sipedang_email" placeholder="Masukan E-Mail"/>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-4 control-label" style="text-align:left;">Kontak</label>
+								<div class="col-sm-6">
+									<input type="text" required name="sipedang_kontak" class="form-control" id="sipedang_kontak" placeholder="Masukan Nomor Kontak"/>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class=" col-sm-10">
+							  <button type="button" class="btn btn-primary btn-md btn-block">Daftar</button>
+							</div>
+						 </div>
+						
+					</div>
+					
+				</div>
+			</form>
+			
 			<ol class="breadcrumb">
 			  <li><a href="<?php echo base_url("/"); ?>"><span class="glyphicon glyphicon-home"></span> Home</a></li>
 			  <li><a href="#">Page 1</a></li>
