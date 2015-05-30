@@ -18,6 +18,10 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="<?php echo base_url('/assets/bower_components/bootstrap/dist/js/bootstrap.min.js')?>"></script>
+	<!-- date-range-picker -->
+    <script src="<?php echo base_url('/assets/js/daterangepicker.js')?>" type="text/javascript"></script>
+	<!-- bootstrap time picker -->
+    <script src="<?php echo base_url('/assets/js/bootstrap-timepicker.min.js')?>" type="text/javascript"></script>
     
     <?php if (isset($needJQueryUI)) { //======= BUTUH JQUERY-UI? ====== ?>
 	<script type='text/javascript' src='<?php echo base_url('/assets/js/jquery-ui.min.js'); ?>'></script>

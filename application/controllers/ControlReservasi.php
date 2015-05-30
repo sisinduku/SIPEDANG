@@ -43,7 +43,7 @@ class ControlReservasi extends CI_Controller {
 	public function form_reservasi_step_2() {
 		$data['pageTitle'] = "Deskripsi Kegiatan";
 		$data['pageMenuId'] = 1;
-		
+		$SecretKey='6Lc4ogcTAAAAAJtYinvnbh-Y1CuhMlAKsIJFkNMn';
 		$this->load->template("form_reservasi_step2", $data);
 	}
 	

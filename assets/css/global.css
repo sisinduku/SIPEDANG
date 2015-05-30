@@ -28,9 +28,7 @@ body {
 	text-align: center;
 }
 
-.form_nama_kegiatan
+.pesan_sekarang
 {
-	width:200px;
-	height:50px;
-	padding:5px;
+	display:none;
 }
