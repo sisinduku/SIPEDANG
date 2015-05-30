@@ -60,4 +60,14 @@ class ControlReservasi extends CI_Controller {
 	
 		$this->load->template("form_reservasi_step3", $data);
 	}
+	
+	public function admin()
+	{
+		//$this->load->template_admin("home.php");
+		//$this->load->model("DataReservasi");
+		//$data['kegiatanTerdekat'] = $this->DataReservasi->get_kegiatan(null, 1);
+		$this->load->view('header');
+		$this->load->view('navigasi');
+		$this->load->view('footer');
+	}
 }
