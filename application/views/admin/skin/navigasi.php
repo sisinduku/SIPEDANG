@@ -2,22 +2,22 @@
                 <div class="sidebar-nav navbar-collapse">
                     <ul class="nav" id="side-menu">
                         <li>
-                            <a href="index.html">Dashboard</a>
+                            <a href="<?php echo site_url('pengelola/ControlReservasi/dasbor')?>">Dashboard</a>
                         </li>
                         <li>
                             <a href="#">Overview Reservasi</a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="flot.html">Approved</a>
+                                    <a href="<?php echo site_url('pengelola/ControlReservasi/list_reservasi')?>">Approved</a>
                                 </li>
                                 <li>
-                                    <a href="morris.html">Pending</a>
+                                    <a href="<?php echo site_url('pengelola/ControlReservasi/list_reservasi')?>">Pending</a>
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>
                         <li>
-                            <a href="tables.html">Ubah Password</a>
+                            <a href="<?php echo site_url('pengelola/ControlReservasi/ubah_password')?>">Ubah Password</a>
                         </li>
                     </ul>
                 </div>
