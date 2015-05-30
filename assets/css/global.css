@@ -1,0 +1,29 @@
+body {
+	background-color: #DFF1FF;
+}
+
+.divclear {
+	clear: both;
+}
+#sipedang_imglogo {
+	width: 32px;
+}
+#sipedang_body {
+	background-color: #fff;
+	box-shadow: 0 0 2px rgba(0,0,0,0.5);
+	margin: 50px auto 20px;
+}
+#sipedang_mainbody {
+	min-height: 500px;
+}
+#sipedang_footer {
+	background-color: #F5F5F5;
+	min-height: 100px;
+}
+
+#sipedang_bottom {
+	padding: 10px;
+	background-color: #686868;
+	color: #fff;
+	text-align: center;
+}

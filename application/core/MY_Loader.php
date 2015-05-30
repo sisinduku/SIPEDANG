@@ -64,18 +64,9 @@ class MY_Loader extends CI_Loader {
      */
     public function template($template_name, $vars = array(), $return = FALSE)
     {
-        $content  = $this->view('skin/dmw_header', $vars, $return);
-		$content .= $this->append_output("<div id='site_content'>\n<div id='site_content_left'>");
-		$content .= $this->view($template_name, $vars, $return);
-		$content .= $this->append_output("</div>\n<div id='site_content_right'>");
-		$content .= $this->view('skin/dmw_sidebar', $vars, $return);
-		$content .= $this->append_output("</div>");
-        $content .= $this->view('skin/dmw_footer', $vars, $return);
-		
-		
-        if ($return) {
-            return $content;
-        }
+        $this->view('skin/header', $vars, $return);
+		$this->view($template_name, $vars, $return);
+        $this->view('skin/footer', $vars, $return);
     }
 
 	public function template_admin($template_name, $vars = array(), $return = FALSE)

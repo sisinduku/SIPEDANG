@@ -77,6 +77,9 @@ class DataReservasi extends CI_Model {
 	
 	/**
 	 * Fungsi untuk mendapatkan kegiatan, jika parameter diisi maka akan didapatkan kegiatan berdasarkan statusnya
+	 * @param int $statusReservasi Filter status reservasi yang akan diambil
+	 * @param int $limit Batas maksimal item yang diambil
+	 * @param string $limitTanggal Batas bawah tanggal item yang akan diambil
 	 * @return multitype:unknown 
 	 */
 	function get_kegiatan($statusReservasi = null, $limit = -1, $limitTanggal = null){
@@ -112,6 +115,24 @@ class DataReservasi extends CI_Model {
 		
 		$row = $result->row();
 		return $row;
+	}
+	
+	/**
+	 * Mendapatkan jumlah reservasi berdasarkan filter yang disebutkan
+	 * @param string $statusReservasi filter status reservasi
+	 * @param string $limitTanggal Batas bawah tanggal kegiatan
+	 * @return Jumlah kegiatan 
+	 */
+	function get_jumlah_kegiatan($statusReservasi = -1, $limitTanggal = null){
+		
+		$this->db->from('tbl_data_reservasi');
+		if ($statusReservasi >= 0)
+			$this->db->where('statusReservasi', $statusReservasi);
+		if ($limitTanggal != null)
+			$this->db->where('waktuMulaiPinjam >=', $limitTanggal);
+		
+		$result = $this->db->count_all_results();
+		return $result;
 	}
 	
 }
