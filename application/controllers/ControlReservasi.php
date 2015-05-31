@@ -6,6 +6,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @author M Nur Hardyanto
  */
 class ControlReservasi extends CI_Controller {
+	private $secretKeyCaptcha = '6Lc4ogcTAAAAAJtYinvnbh-Y1CuhMlAKsIJFkNMn';
 	/**
 	 * Halaman Home reservasi
 	 */
@@ -114,7 +115,6 @@ class ControlReservasi extends CI_Controller {
 		}
 		$data['pageTitle'] = "Deskripsi Kegiatan";
 		$data['pageMenuId'] = 1;
-		
 		$data['submitErrors'] = array();
 		if ($this->input->post('submit')) {
 			//==== Assign ============================
