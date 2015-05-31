@@ -1,10 +1,12 @@
 <?php
 
 /**
- * Kelas untuk objek DataReserasi
+ * Kelas untuk objek DataReservasi
  * @author Saptanto
  * 
  */
+// Changelog:
+//  (30/05/2015): penambahan $dataKegiatan dan $idKegiatan
 class DataReservasi extends CI_Model {
 	
 	const STAT_PENDING = 0;
@@ -12,8 +14,10 @@ class DataReservasi extends CI_Model {
 	const STAT_EXPIRED = 2;
 	const STAT_REJECTED = 3;
 	
-	private $idReservasi, $kodeReservasi, $namaTamu, $email, $kontak, $kegiatan, $gambar, $waktuMulaiPinjam, $waktuSelesaiPinjam, $waktuReservasi, $penyelenggara, $kategoriKegiatan, $deskripsiKegiatan, $statusReservasi;
-	private $listKategori = array(
+	private $idReservasi, $kodeReservasi, $namaTamu, $email, $kontak, $kegiatan, $gambar;
+	private $waktuMulaiPinjam, $waktuSelesaiPinjam, $waktuReservasi, $penyelenggara;
+	private $kategoriKegiatan, $deskripsiKegiatan, $statusReservasi;
+	public static $listKategori = array(
 			1 => "Seminar PKL",
 			2 => "Seminar TA",
 			3 => "Kegiatan Jurusan",
@@ -26,34 +30,72 @@ class DataReservasi extends CI_Model {
 	}
 	
 	/**
-	 * Fungsi untuk menambah kegiatan
+	 * Fungsi untuk menambah atau mengupdate kegiatan
+	 * @param array $dataKegiatan Associative array berisi data kegiatan yang akan disimpan
+	 * @param int $idReservasi ID reservasi yang akan diupdate, -1 jika ingin buat baru
 	 * @return NULL|string error
 	 */
-	function set_kegiatan() {
+	function set_kegiatan($dataKegiatan, $idReservasi = -1) {
+		// Set informasi pemensan
+		$this->namaTamu			= $dataKegiatan['namaTamu'];
+		$this->kontak			= $dataKegiatan['kontak'];
+		$this->email			= $dataKegiatan['email'];
 		
-		$this->namaTamu = $this->input->post('namaTamu');
-		$this->kegiatan = $this->input->post('kegiatan');
-		$this->gambar = $this->input->post('gambar');
-		$this->waktuMulaiPinjam = $this->input->post('waktuMulaiPinjam');
-		$this->waktuSelesaiPinjam = $this->input->post('waktuSelesaiPinjam');
+		// Set informasi kegiatan
+		$this->kegiatan			= $dataKegiatan['kegiatan'];
+		$this->gambar			= $dataKegiatan['gambar'];
+		$this->waktuMulaiPinjam		= $dataKegiatan['waktuMulaiPinjam'];
+		$this->waktuSelesaiPinjam	= $dataKegiatan['waktuSelesaiPinjam'];
+		$this->penyelenggara		= $dataKegiatan['penyelenggara'];
+		$this->kategoriKegiatan		= $dataKegiatan['kategoriKegiatan'];
+		$this->deskripsiKegiatan	= $dataKegiatan['deskripsiKegiatan'];
+		
+		// Set informasi reservasi
 		$now = new DateTime();
-		$this->waktuReservasi = $now->format('Y-m-d H:i:s');
-		$this->penyelenggara = $this->input->post('penyelenggara');
-		$this->kategoriKegiatan = $this->input->post('kategoriKegiatan');
-		$this->deskripsiKegiatan = $this->input->post('deskripsiKegiatan');
-		$this->statusReservasi = 0;
+		$this->waktuReservasi		= $now->format('Y-m-d H:i:s');
+		$this->statusReservasi		= $this::STAT_PENDING;
 		
-		$data = array('namaTamu' => $this->namaTamu, 'kegiatan' => $this->kegiatan, 'gambar' => $this->gambar, 'waktuMulaiPinjam' => $this->waktuMulaiPinjam,
-						'waktuSelesaiPinjam' => $this->waktuSelesaiPinjam, 'waktuReservasi' => $this->waktuReservasi, 'penyelenggara' => $this->penyelenggara,
-						'kategoriKegiatan' => $this->kategoriKegiatan, 'deskripsiKegiatan' => $this->deskripsiKegiatan, 'statusReservasi' => $this->statusReservasi);
+		// Generate data array
+		$data = array(
+			'namaTamu'			=> $this->namaTamu,
+			'kegiatan'			=> $this->kegiatan,
+			'waktuMulaiPinjam'	=> $this->waktuMulaiPinjam,
+			'waktuSelesaiPinjam'	=> $this->waktuSelesaiPinjam,
+			'penyelenggara'		=> $this->penyelenggara,
+			'kategoriKegiatan'	=> intval($this->kategoriKegiatan),
+			'deskripsiKegiatan'	=> $this->deskripsiKegiatan,
+			'kontak'		=> $this->kontak,
+			'email'			=> $this->email
+		);
 		
-		$this->db->insert('tbl_data_reservasi', $data);
+		if (!empty($this->gambar)) {
+			// Update/tambah gambar jika ada...
+			$data['gambar']		= $this->gambar;
+		}
+		if ($idReservasi > 0) {
+			$this->db->where('idReservasi',$idReservasi);
+			$this->db->update('tbl_data_reservasi', $data);
+		} else {
+			$data['waktuReservasi']		= $this->waktuReservasi;
+			$data['statusReservasi']	= $this->statusReservasi;
+			
+			$this->db->insert('tbl_data_reservasi', $data);
+		}
 		
-		if($this->db->affected_rows() != 0){
-			$rand = substr(md5(microtime()),rand(0,26),5);
-			$insert_id = $this->db->insert_id();
-			$this->kodeReservasi = $insert_id.$rand;
-			$this->db->update('tbl_data_reservasi', array('kodeReservasi'=>$this->kodeReservasi), array('idReservasi'=>$insert_id));
+		
+		if($this->db->affected_rows() != 0) {
+			if ($idReservasi > 0) {
+				
+			} else {
+				// Generate kode reservasi (khusus tambah baru)
+				$rand = substr(md5(microtime()),rand(0,26),5);
+				$insert_id = $this->db->insert_id();
+				$this->kodeReservasi = sprintf("%04d-%s",$insert_id,$rand);
+				$this->db->update('tbl_data_reservasi',
+					array('kodeReservasi'=>$this->kodeReservasi),
+					array('idReservasi'=>$insert_id)
+				);
+			}
 			return null;
 		}else{
 			return "Kegiatan gagal ditambahkan : ".$this->db->error();
