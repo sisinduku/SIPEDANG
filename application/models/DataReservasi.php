@@ -9,21 +9,19 @@
 //  (30/05/2015): penambahan $dataKegiatan dan $idKegiatan
 class DataReservasi extends CI_Model {
 	
-	const STAT_PENDING = 0;
-	const STAT_ACCEPTED = 1;
-	const STAT_EXPIRED = 2;
-	const STAT_REJECTED = 3;
+	const STAT_PENDING	= 0;
+	const STAT_ACCEPTED	= 1;
+	const STAT_REJECTED	= 2;
+	
+	const STAT_PENDING_ACTIVE	= 100;
+	const STAT_PENDING_EXPIRED	= 101; //=> Expired adalah status=PENDING dan (NOW-tgl_pesan > 3 jam)
+	
+	const STAT_ACTIVE_RESERVATION = 200; // Active reservation adalah accepted+pending aktif
 	
 	private $idReservasi, $kodeReservasi, $namaTamu, $email, $kontak, $kegiatan, $gambar;
 	private $waktuMulaiPinjam, $waktuSelesaiPinjam, $waktuReservasi, $penyelenggara;
 	private $kategoriKegiatan, $deskripsiKegiatan, $statusReservasi;
-	public static $listKategori = array(
-			1 => "Seminar PKL",
-			2 => "Seminar TA",
-			3 => "Kegiatan Jurusan",
-			4 => "Kegiatan Organisasi",
-			99 => "Lain-lain"
-	);
+	
 	public function __construct(){
 		// Call the CI_Model constructor
 		parent::__construct();
@@ -53,19 +51,21 @@ class DataReservasi extends CI_Model {
 		// Set informasi reservasi
 		$now = new DateTime();
 		$this->waktuReservasi		= $now->format('Y-m-d H:i:s');
-		$this->statusReservasi		= $this::STAT_PENDING;
+		$this->statusReservasi		= (isset($dataKegiatan['status'])?$dataKegiatan['status']:$this::STAT_PENDING);
 		
+		$expireTime					= strtotime("+3 hours");
 		// Generate data array
 		$data = array(
 			'namaTamu'			=> $this->namaTamu,
 			'kegiatan'			=> $this->kegiatan,
 			'waktuMulaiPinjam'	=> $this->waktuMulaiPinjam,
-			'waktuSelesaiPinjam'	=> $this->waktuSelesaiPinjam,
+			'waktuSelesaiPinjam'=> $this->waktuSelesaiPinjam,
 			'penyelenggara'		=> $this->penyelenggara,
 			'kategoriKegiatan'	=> intval($this->kategoriKegiatan),
 			'deskripsiKegiatan'	=> $this->deskripsiKegiatan,
-			'kontak'		=> $this->kontak,
-			'email'			=> $this->email
+			'kontak'			=> $this->kontak,
+			'email'				=> $this->email,
+			'expireTime'		=> $expireTime
 		);
 		
 		if (!empty($this->gambar)) {
@@ -107,13 +107,22 @@ class DataReservasi extends CI_Model {
 	 * Fungsi untuk merubah status dari reservasi yang sudah dibuat
 	 * @return null jika sukses dan "Query failed!" jika gagal 
 	 */
-	function set_status_reservasi(){
+	function set_status_reservasi($idReservasi, $statusReservasi){
+		$dataUpdate = array('statusReservasi'	=> $statusReservasi);
 		
-		$this->idReservasi = $this->input->post('idReservasi');
-		$this->statusReservasi = $this->input->post('statusReservasi');
-		$this->db->update('tbl_data_reservasi', array('statusReservasi'=>$this->statusReservasi), array('idReservasi'=>$this->idReservasi));
+		// Hapus expiration time jika menerima atau menolak reservasi
+		if (($statusReservasi == $this::STAT_ACCEPTED) ||
+				($statusReservasi == $this::STAT_REJECTED)) {
+			$dataUpdate['expireTime'] = null;
+		}
+		$this->db->update('tbl_data_reservasi',
+				$dataUpdate,
+				array('idReservasi'		=> $idReservasi)
+		);
 		
-		if ($this->db->affected_rows() == 0) return ("Query failed! : ".$this->db->error());
+		if ($this->db->affected_rows() == 0)
+			return ("Query failed! : ".$this->db->error());
+		return null;
 	}
 	
 	
@@ -124,14 +133,31 @@ class DataReservasi extends CI_Model {
 	 * @param string $limitTanggal Batas bawah tanggal item yang akan diambil
 	 * @return multitype:unknown 
 	 */
-	function get_kegiatan($statusReservasi = null, $limit = -1, $limitTanggal = null){
+	function get_kegiatan($statusReservasi = -1, $limit = -1, $limitTanggal = null){
 		
-		if ($statusReservasi != null)
-			$this->db->where('statusReservasi', $statusReservasi);
+		if ($statusReservasi != -1) {
+			if (is_array($statusReservasi)) {
+				$this->db->where_in('statusReservasi', $statusReservasi);
+			} else {
+				if ($statusReservasi == $this::STAT_ACTIVE_RESERVATION) {
+					$whereClauseActivePending =
+						"(statusReservasi=".$this::STAT_PENDING." AND expireTime >= ".strtotime("now").")";
+					$this->db->where('(statusReservasi='.$this::STAT_ACCEPTED." OR {$whereClauseActivePending})");
+				} else {
+					$this->db->where('statusReservasi', $statusReservasi);
+				}
+			}
+			
+			
+		}
+			
 		if ($limit > 0)
 			$this->db->limit($limit);
-		if($limitTanggal != null)
+		
+		if($limitTanggal != null) {
 			$this->db->where('waktuMulaiPinjam >=', $limitTanggal);
+		}
+			
 		
 		$this->db->order_by("waktuMulaiPinjam ASC");
 		
@@ -147,6 +173,41 @@ class DataReservasi extends CI_Model {
 		return $query_result;
 	}
 	
+	function get_kegiatan_by_daterange($tglAwal, $tglAkhir, $statusReservasi = -1, $limit = -1) {
+		if ($statusReservasi != -1) {
+			if ($statusReservasi == $this::STAT_ACTIVE_RESERVATION) {
+				$whereClauseActivePending =
+					"(statusReservasi=".$this::STAT_PENDING." AND expireTime >= ".strtotime("now").")";
+				$this->db->where('(statusReservasi='.$this::STAT_ACCEPTED." OR {$whereClauseActivePending})");
+			} else {
+				$this->db->where('statusReservasi', $statusReservasi);
+			}
+		}
+			
+		if ($limit > 0)
+			$this->db->limit($limit);
+		
+		$tglAwalSafe = $this->db->escape($tglAwal);
+		$tglAkhirSafe = $this->db->escape($tglAkhir);
+		$reqDate1 = sprintf("waktuMulaiPinjam BETWEEN %s AND %s", $tglAwalSafe, $tglAkhirSafe);
+		$reqDate2 = sprintf("waktuSelesaiPinjam BETWEEN %s AND %s", $tglAwalSafe, $tglAkhirSafe);
+		$reqDate3 = sprintf("(waktuMulaiPinjam < %s) AND (waktuSelesaiPinjam > %s)", $tglAwalSafe, $tglAkhirSafe);
+		$queryString = sprintf("((%s) OR (%s) OR (%s))", $reqDate1, $reqDate2, $reqDate3);
+		$this->db->where($queryString);
+
+		$this->db->order_by("waktuMulaiPinjam ASC");
+		
+		$result = $this->db->get('tbl_data_reservasi');
+		$index = 0;
+		$query_result = array();
+		
+		foreach ($result->result() as $row){
+			$query_result[$index] = $row;
+			$index++;
+		}
+		
+		return $query_result;
+	}
 	/**
 	 * Fungsi untuk mengambil kegiatan berdasarkan idReservasi
 	 * @return DataReservasi Object reserasi berdasarkan idReservasi

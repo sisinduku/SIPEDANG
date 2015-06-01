@@ -1,5 +1,5 @@
 <div class="col-md-8">
-	<div id="calendar"></div>
+	<div id="sipedang_kalendarreservasi"></div>
 </div>
 <div class="col-md-4">
 	
@@ -13,27 +13,32 @@
 
 	$(document).ready(function() {
 	
-		$('#calendar').fullCalendar({
+		$('#sipedang_kalendarreservasi').fullCalendar({
 			header: {
-				left: 'prev today',
+				left: 'prev next today',
 				center: 'title',
-				right: 'next'
+				right: 'month, agendaWeek'
 			},
 			eventLimit: true, // allow "more" link when too many events
 			events: {
-				url: '<?php echo base_url("/csi/ajax"); ?>',
+				url: '<?php echo site_url("/ControlReservasi/ajax_get_listreservasi"); ?>',
 				error: function() {
-					$('#script-warning').show();
+					//$('#script-warning').show();
+					alert("Terjadi kesalahan.");
 				}
 			},
 			loading: function(bool) {
-				$('#loading').toggle(bool);
+				$('#sipedang_loadingbox').toggle(bool);
 			},
 			eventBackgroundColor: "#CEE4ED",
 			eventTextColor: "#003751",
-			eventBorderColor: "#CEE4ED"
+			eventBorderColor: "#CEE4ED",
+			timeFormat: 'H:mm'
 		});
 		
 	});
 
 </script>
+<div id="sipedang_loadingbox">
+	<img src="<?php echo base_url("/assets/images/loader.gif"); ?>" alt="Loading..." /> Loading....
+</div>

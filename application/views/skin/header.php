@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
   <head>
     <meta charset="utf-8">
     <link rel="icon" href="<?php echo base_url("/assets/favicon.ico");?>" type="image/x-icon">
@@ -9,8 +9,6 @@
     <meta name="description" content="">
     <meta name="author" content="">
     
-    <!-- <link rel="icon" href="../../favicon.ico"> -->
-
     <title><?php if (isset($pageTitle)) echo $pageTitle; else echo "Untitled"; ?> - SiPedang</title>
 
     <!-- Bootstrap core CSS -->
@@ -26,12 +24,14 @@
     <![endif]-->
     
     <script src="<?php echo base_url('/assets/bower_components/jquery/dist/jquery.min.js')?>"></script>
+    <script src="<?php echo base_url('/assets/js/jquery.easing.1.3.min.js')?>"></script>
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url("/assets/css/daterangepicker-bs3.css"); ?>" />
+	
     <?php if (isset($needJQueryUI)) { //======= BUTUH JQUERY-UI? ====== ?>
 	<link href="<?php echo base_url('/assets/css/jquery-ui.min.css'); ?>" rel="stylesheet">
 	<link href="<?php echo base_url('/assets/css/jquery-ui.theme.min.css'); ?>" rel="stylesheet">
 	<?php } //========================================================= ?>
 	<?php if (isset($pageAdditionalHead)) echo $pageAdditionalHead; ?>
-  
   </head>
 
   <body role="document">
@@ -64,80 +64,94 @@
     <div class="container" role="main" id="sipedang_body">
 		<div class="row">
 			<img src="<?php echo base_url("/assets/images/header_home.jpg"); ?>" alt="SiPedang" style="width:100%;" />
-			<form>
-				<div class="row" style="padding-left:5px; padding-top:10px;">
-					<div class="col-md-6">
-						<div class="form-horizontal" >
+		</div>
+<?php if (!isset($hideFormReservasi)) { //=============== Jika form reservasi ditampilkan ======== ?>
+		<div class="row" id="sipedang_ctr_formreservasi">
+			<div class="col-lg-12">
+				<h3><span class="glyphicon glyphicon-pencil"></span> Formulir Reservasi Ruang Sidang</h3>
+				<div class="row">
+					<form action="<?php echo site_url("/ControlReservasi/form_reservasi"); ?>"
+						method="post" id="sipedang_formreservasi">
+						<div class="col-md-6 form-horizontal">
 							<div class="form-group">
-								<label class="col-sm-3 control-label" style="text-align:left; padding-left:30px;">Nama Kegiatan</label>
-								<div class="col-sm-6">
+								<label class="col-sm-3 control-label" for="sipedang_namakegiatan">Kegiatan</label>
+								<div class="col-sm-9">
 									<input type="text" required name="sipedang_namakegiatan" class="form-control" id="sipedang_namakegiatan" placeholder="Masukan Nama Kegiatan"/>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-3 control-label" style="text-align:left; padding-left:30px;">Pemesan</label>
-								<div class="col-sm-6">
+								<label class="col-sm-3 control-label" for="sipedang_pemesan">Pemesan</label>
+								<div class="col-sm-9">
 									<input type="text" required name="sipedang_pemesan" class="form-control" id="sipedang_pemesan" placeholder="Masukan Nama Pemesan"/>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-3 control-label" style="text-align:left; padding-left:30px;">Penyelenggara</label>
-								<div class="col-sm-6">
+								<label class="col-sm-3 control-label" for="sipedang_penyelenggara">Penyelenggara</label>
+								<div class="col-sm-9">
 									<input type="text" required name="sipedang_penyelenggara" class="form-control" id="sipedang_penyelenggara" placeholder="Masukan Penyelenggara"/>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-3 control-label" style="text-align:left; padding-left:30px;">Kategori</label>
-								<div class="col-sm-6">
+								<label class="col-sm-3 control-label" for="sipedang_kategori">Kategori</label>
+								<div class="col-sm-9">
 									<select name="sipedang_kategori" required class="form-control" id="sipedang_kategori" onchange="pilih_tambah_kategori()">
-										<option value="">--Pilih Kategori Event--</option>
+										<option value="">- Pilih Kategori Event -</option>
 										<option value="1">Seminar PKL</option>
 										<option value="2">Seminar TA</option>
 										<option value="3">Kegiatan Jurusan</option>
 										<option value="4">Kegiatan Organisasi</option>
 										<option value="5">Lain-Lain</option>
-									</select></br>
+									</select>
 								</div>
 							</div>
-						</div>
-					</div>
-					
-					<div class="col-md-6" >
-						<div class="form-horizontal">
+						</div> <!-- End col-6 -->
+						
+						<div class="col-md-6 form-horizontal" >
 							<div class="form-group">
-								<label class="col-sm-4 control-label" style="text-align:left;">Waktu Pelaksanaan</label>
-								<div class="col-sm-6">
-									<input type="text" required name="sipedang_waktupelaksanaan" class="form-control" id="sipedang_namakegiatan" placeholder="Masukan Nama Kegiatan"/>
+								<label class="col-sm-3 control-label" for="sipedang_waktupelaksanaan">Pelaksanaan</label>
+								<div class="col-sm-9" id="sipedang_ctr_waktupelaksanaan">
+									<input type="text" required name="sipedang_waktupelaksanaan" class="form-control" id="sipedang_waktupelaksanaan" placeholder="Waktu Pelaksanaan"/>
+									<input type="hidden" name="sipedang_tglmulai" id="sipedang_tglmulai" value="" />
+									<input type="hidden" name="sipedang_tglselesai" id="sipedang_tglselesai" value="" />
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-4 control-label" style="text-align:left;">E-Mail</label>
-								<div class="col-sm-6">
+								<label class="col-sm-3 control-label" for="sipedang_email">E-Mail</label>
+								<div class="col-sm-9">
 									<input type="email" required name="sipedang_email" class="form-control" id="sipedang_email" placeholder="Masukan E-Mail"/>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-4 control-label" style="text-align:left;">Kontak</label>
-								<div class="col-sm-6">
+								<label class="col-sm-3 control-label" for="sipedang_kontak">Kontak</label>
+								<div class="col-sm-9">
 									<input type="text" required name="sipedang_kontak" class="form-control" id="sipedang_kontak" placeholder="Masukan Nomor Kontak"/>
 								</div>
 							</div>
-						</div>
-						<div class="form-group">
-							<div class=" col-sm-10">
-							  <button type="button" class="btn btn-primary btn-md btn-block">Daftar</button>
+							<div class="form-group">
+								<div class=" col-sm-12">
+								  <input type="hidden" name="sipedang_submit" value="<?php echo "submit-".date("Ymd-His"); ?>" />
+								  <button type="submit" name="sipedang_btnsubmit" class="btn btn-primary btn-md btn-block">
+								  	Daftar <span class="glyphicon glyphicon-chevron-right"></span> </button>
+								</div>
 							</div>
-						 </div>
+						</div>
 						
-					</div>
-					
-				</div>
-			</form>
-			
-			<ol class="breadcrumb">
-			  <li><a href="<?php echo base_url("/"); ?>"><span class="glyphicon glyphicon-home"></span> Home</a></li>
-			  <li><a href="#">Page 1</a></li>
-			  <li class="active">Data</li>
-			</ol>
+					</form>
+				</div> <!-- End row form -->
+			</div> <!-- End col-12 -->
 		</div>
+		<div class="row" style="background-color:#F5F5F5;border-bottom: solid 1px #CCCCCC;">
+			<div class="col-sm-8">
+				
+			</div>
+			<div class="col-sm-4">
+				<a href="#" onclick="return toggle_form();">Formulir Reservasi</a>
+			</div>
+		</div>
+<?php } //================ END IF ============================ ?>
+		<ol class="breadcrumb" style="margin-top: 15px;">
+		  <li><a href="<?php echo base_url("/"); ?>"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+		  <li><a href="#">Page 1</a></li>
+		  <li class="active">Data</li>
+		</ol>
 		<div class="row" id="sipedang_mainbody">

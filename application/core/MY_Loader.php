@@ -6,7 +6,14 @@
  * 
  */
 class MY_Loader extends CI_Loader {
+	const SESS_ID_UID		= "sipedang_sess_uid";
+	const SESS_ID_UEMAIL	= "sipedang_sess_uemail";
 	
+	public static $htmlStatus = array(
+			0 => "<span class=\"label label-warning\">Pending</span>",
+			1 => "<span class=\"label label-success\">Approved</span>",
+			2 => "<span class=\"label label-danger\">Rejected</span>"
+	);
 	/**
 	 * Mengubah tanggal menjadi format Indonesia
 	 * @param int $time_ UNIX time
@@ -72,7 +79,8 @@ class MY_Loader extends CI_Loader {
 	public function template_admin($template_name, $vars = array(), $return = FALSE)
     {
         $this->view('admin/skin/header', $vars, $return);
-		$this->view('admin/skin/navigasi', $vars, $return);
+		if (!isset($vars['simplePage']))
+			$this->view('admin/skin/navigasi', $vars, $return);
 		$this->view($template_name, $vars, $return);
         $this->view('admin/skin/footer', $vars, $return);
     }
@@ -101,14 +109,18 @@ class MY_Loader extends CI_Loader {
         }
     }
 	
-	public function check_session($_pmask = -1, $_no_redir = false, $_log_err_msg = null, $prev_err_msg = null) {
+	/**
+	 * Cek sesi pengelola
+	 * @param string $enableRedirect Jika TRUE, maka akan redirect jika tidak ada sesi
+	 * @return boolean TRUE jika ada sesi, sebaliknya FALSE
+	 */
+	public function check_session($enableRedirect = true) {
 		$ci =& get_instance();
 		
-		if (!$ci->nativesession->get('dmw_user_id_')) {
-			if ($_no_redir) {
-				//$this->append_output(($_log_err_msg?$_log_err_msg:"Sorry, you must logged in to continue..."));
-				$ci->output->append_output(($_log_err_msg?$_log_err_msg:"Sorry, you must logged in to continue..."));
-			} else $ci->output->set_header('Location: '.base_url('/admin/auth/authenticate?next='.urlencode($_SERVER['REQUEST_URI'])));
+		if (!$ci->nativesession->get($this::SESS_ID_UID)) {
+			if ($enableRedirect) {
+				$ci->output->set_header('Location: '.site_url('/ControlAutentikasi/login?next='.urlencode($_SERVER['REQUEST_URI'])));
+			} 
 			return false;
 		}
 		return true;

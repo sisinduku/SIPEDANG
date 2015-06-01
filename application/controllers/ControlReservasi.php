@@ -7,6 +7,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 class ControlReservasi extends CI_Controller {
 	private $secretKeyCaptcha = '6Lc4ogcTAAAAAJtYinvnbh-Y1CuhMlAKsIJFkNMn';
+	public static $listKategori = array(
+			1 => "Seminar PKL",
+			2 => "Seminar TA",
+			3 => "Kegiatan Jurusan",
+			4 => "Kegiatan Organisasi",
+			99 => "Lain-lain"
+	);
 	/**
 	 * Halaman Home reservasi
 	 */
@@ -21,6 +28,7 @@ class ControlReservasi extends CI_Controller {
 				DataReservasi::STAT_ACCEPTED, 5, date("Y-m-d H:i:s"));
 		
 		$data['needJQueryUI'] = true;
+		$data['listKategori']		= $this::$listKategori;
 		$this->load->template("home", $data);
 	}
 	
@@ -31,6 +39,7 @@ class ControlReservasi extends CI_Controller {
 		$data['pageTitle'] = "Kalendar";
 		$data['pageMenuId'] = 3;
 		$this->load->model("DataReservasi");
+		$data['listKategori']		= $this::$listKategori;
 		$this->load->template("kalenderkegiatan", $data);
 	}
 	
@@ -39,7 +48,7 @@ class ControlReservasi extends CI_Controller {
 		$data['pageMenuId'] = 1;
 		
 		$data['submitErrors'] = array();
-		if ($this->input->post('submit')) {
+		if ($this->input->post('sipedang_submit')) {
 			//==== Assign
 			$data['sipedang_namakegiatan']	= trim($this->input->post('sipedang_namakegiatan'));
 			$data['sipedang_pemesan']		= trim($this->input->post('sipedang_pemesan'));
@@ -47,10 +56,12 @@ class ControlReservasi extends CI_Controller {
 			$data['sipedang_kategori']		= intval($this->input->post('sipedang_kategori'));
 			$data['sipedang_tglmulai']		= trim($this->input->post('sipedang_tglmulai'));
 			$data['sipedang_tglselesai']	= trim($this->input->post('sipedang_tglselesai'));
+			$data['sipedang_kontak']		= trim($this->input->post('sipedang_kontak'));
+			$data['sipedang_email']			= trim($this->input->post('sipedang_email'));
 			
 			//==== Validasi
 			// Format datetime mysql
-			$ruleFormatDateTime = 'trim|required|regex_match[(0[1-9]|1[0-9]|2[0-9]|3(0|1))-(0[1-9]|1[0-2])-\d{4}] ([0-1][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]';
+			$patternFormatDateTime = '/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|1[0-9]|2[0-9]|3(0|1))\s([0-1][0-9]|2[0-3]):([0-5]0)$/';
 			$this->load->library('form_validation');
 			$this->form_validation->set_rules('sipedang_namakegiatan' ,
 					'nama kegiatan', 'trim|required|max_length[128]');
@@ -65,17 +76,36 @@ class ControlReservasi extends CI_Controller {
 			$this->form_validation->set_rules('sipedang_email',
 					'kontak', 'trim|required|valid_email|max_length[128]');
 			$this->form_validation->set_rules('sipedang_tglmulai',
-					'tanggal mulai', $ruleFormatDateTime);
+					'tanggal mulai', 'trim|required');
 			$this->form_validation->set_rules('sipedang_tglselesai',
-					'tanggal selesai', $ruleFormatDateTime);
+					'tanggal selesai', 'trim|required');
 			
 			if ($this->form_validation->run() == FALSE) {
 				$data['submitErrors'][] = validation_errors("<div>","</div>");
 			} else {
-				if (strtotime($data['sipedang_tglmulai']) > strtotime($data['sipedang_tglselesai'])) {
-					$data['submitErrors'][] = "Range waktu peminjaman tidak valid!";
+				if ((preg_match($patternFormatDateTime, $data['sipedang_tglmulai'])) &&
+						(preg_match($patternFormatDateTime, $data['sipedang_tglselesai']))) {
+					if (strtotime($data['sipedang_tglmulai']) >= strtotime($data['sipedang_tglselesai'])) {
+						$data['submitErrors'][] = "Range waktu peminjaman tidak valid!";
+					} else {
+						$this->load->model("DataReservasi");
+						$listReservasiKonflik = $this->DataReservasi->get_kegiatan_by_daterange(
+							$data['sipedang_tglmulai'], $data['sipedang_tglselesai'],
+							DataReservasi::STAT_ACTIVE_RESERVATION, 1
+						);
+						if (count($listReservasiKonflik) > 0) {
+							$data['submitErrors'][] = "Maaf, range tanggal yang Anda masukkan bertabrakan dengan ".
+								"reservasi berikut:<br><a href=\"".site_url("/ControlReservasi/detil_kegiatan/".$listReservasiKonflik[0]->idReservasi)."\">".htmlspecialchars($listReservasiKonflik[0]->kegiatan)."</a>".
+								"<br>Silakan pilih tanggal atau jam lain." ;
+						}
+					}
+					$data['sipedang_daterange']		= date("Y-m-d H:i", strtotime($data['sipedang_tglmulai']))." s/d ";
+					$data['sipedang_daterange']	   .= date("Y-m-d H:i", strtotime($data['sipedang_tglselesai']));
+				} else {
+					$data['submitErrors'][] = "Format tanggal tidak valid!";
 				}
-				if (!array_key_exists($data['sipedang_kategori'], DataReservasi::$listKategori)) {
+				
+				if (!array_key_exists($data['sipedang_kategori'], $this::$listKategori)) {
 					$data['submitErrors'][] = "Kategori kegiatan tidak valid!";
 				}
 			}
@@ -93,30 +123,50 @@ class ControlReservasi extends CI_Controller {
 						'waktuMulaiPinjam'		=> $data['sipedang_tglmulai'],
 						'waktuSelesaiPinjam'	=> $data['sipedang_tglselesai']
 				);
-				$this->Nativesession->set('spd_rsv_status',true);
-				$this->Nativesession->set('spd_rsv_timestamp',date("Y-m-d H:i:s"));
-				$this->Nativesession->set('spd_rsv_data',$dataReservasi);
+				$this->nativesession->set('spd_rsv_status',true);
+				$this->nativesession->set('spd_rsv_timestamp',date("Y-m-d H:i:s"));
+				$this->nativesession->set('spd_rsv_data',$dataReservasi);
 				
+				// Kirim e-mail, bila perlu...
 				$this->output->set_header("Location: ".site_url("/ControlReservasi/form_reservasi_step_2"));
 				return;
 			} else {
 				
 			}
+		} else {
+			if (($this->nativesession->get('spd_rsv_status')==true) &&
+					is_array($this->nativesession->get('spd_rsv_data'))) {
+						
+				$dataReservasi = $this->nativesession->get('spd_rsv_data');
+				
+				$data['sipedang_namakegiatan']	= $dataReservasi['kegiatan'];
+				$data['sipedang_pemesan']		= $dataReservasi['namaTamu'];
+				$data['sipedang_penyelenggara']	= $dataReservasi['penyelenggara'];
+				$data['sipedang_kategori']		= $dataReservasi['kategoriKegiatan'];
+				$data['sipedang_tglmulai']		= $dataReservasi['waktuMulaiPinjam'];
+				$data['sipedang_tglselesai']	= $dataReservasi['waktuSelesaiPinjam'];
+				$data['sipedang_kontak']		= $dataReservasi['kontak'];
+				$data['sipedang_email']			= $dataReservasi['email'];
+				
+				$data['sipedang_daterange']		= date("Y-m-d H:i", strtotime($data['sipedang_tglmulai']))." s/d ";
+				$data['sipedang_daterange']	   .= date("Y-m-d H:i", strtotime($data['sipedang_tglselesai']));
+			}
 		}
+		$data['listKategori']		= $this::$listKategori;
+		$data['hideFormReservasi'] = true;
 		$this->load->template("form_reservasi_step1", $data);
 	}
 	
 	public function form_reservasi_step_2() {
 		// Pastikan data reservasi pada tahap 1 sudah ada/tersimpan
-		if (($this->Nativesession->get('spd_rsv_status')!=true) &&
-				is_array($this->Nativesession->get('spd_rsv_data'))) {
+		if ($this->nativesession->get('spd_rsv_status')!=true) {
 			$this->output->set_header("Location: ".site_url("/ControlReservasi/form_reservasi"));
 			return;
 		}
 		$data['pageTitle'] = "Deskripsi Kegiatan";
 		$data['pageMenuId'] = 1;
 		$data['submitErrors'] = array();
-		if ($this->input->post('submit')) {
+		if ($this->input->post('sipedang_submit')) {
 			//==== Assign ============================
 			$data['sipedang_deskripsi']		= trim($this->input->post('sipedang_deskripsi'));
 			$data['sipedang_filegambar']	= '';
@@ -154,10 +204,11 @@ class ControlReservasi extends CI_Controller {
 			}
 			//==== Jika Sukses
 			if (empty($data['submitErrors'])) {
-				$dataReservasi 		= $this->Nativesession->get('spd_rsv_data');
+				$dataReservasi 		= $this->nativesession->get('spd_rsv_data');
 				$dataReservasi['deskripsiKegiatan'] = $data['sipedang_deskripsi'];
 				$dataReservasi['gambar'] 			= $data['sipedang_filegambar'];
 				
+				$this->load->model("DataReservasi");
 				$this->DataReservasi->set_kegiatan($dataReservasi);
 				$this->output->set_header("Location: ".site_url("/ControlReservasi/form_reservasi_step_3"));
 				return;
@@ -165,6 +216,7 @@ class ControlReservasi extends CI_Controller {
 		
 			}
 		}
+		$data['hideFormReservasi'] = true;
 		$this->load->template("form_reservasi_step2", $data);
 	}
 	
@@ -172,6 +224,7 @@ class ControlReservasi extends CI_Controller {
 		$data['pageTitle'] = "Informasi Reservasi";
 		$data['pageMenuId'] = 1;
 	
+		$data['hideFormReservasi'] = true;
 		$this->load->template("form_reservasi_step3", $data);
 	}
 	
@@ -182,13 +235,34 @@ class ControlReservasi extends CI_Controller {
 		$this->load->template("form_reservasi_step3", $data);
 	}
 	
-	public function admin()
-	{
-		//$this->load->template_admin("home.php");
-		//$this->load->model("DataReservasi");
-		//$data['kegiatanTerdekat'] = $this->DataReservasi->get_kegiatan(null, 1);
-		$this->load->view('header');
-		$this->load->view('navigasi');
-		$this->load->view('footer');
+	public function ajax_get_listreservasi() {
+		$this->load->model("DataReservasi");
+		
+		$startDate	= $_GET['start'];
+		$endDate	= $_GET['end'];
+	
+		if (!preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/",$startDate))
+			die("Invalid date format!");
+		if (!preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/",$endDate))
+			die("Invalid date format!");
+	
+		$listReservasi = $this->DataReservasi->get_kegiatan_by_daterange(
+				$startDate, $endDate, DataReservasi::STAT_ACCEPTED
+		);
+	
+		$ajaxOutput = array();
+		foreach ($listReservasi as $itemReservasi) {
+			// Karena pada fullCalendar, endDate bersifat eksklusif, maka endDate secara
+			//	manual ditambah satu hari -_-
+			$ajaxOutput[] = array(
+					'id'		=> $itemReservasi->idReservasi,
+					'title'		=> $itemReservasi->kegiatan,
+					'allDay'	=> false,
+					'url'		=> site_url("/ControlReservasi/detil_reservasi/".$itemReservasi->idReservasi),
+					'start'		=> $itemReservasi->waktuMulaiPinjam,
+					'end'		=> $itemReservasi->waktuSelesaiPinjam
+			);
+		}
+		$this->output->append_output(json_encode($ajaxOutput));
 	}
 }

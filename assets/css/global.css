@@ -5,6 +5,18 @@ body {
 .divclear {
 	clear: both;
 }
+
+#sipedang_loadingbox {
+	position: fixed;
+	top: 75px;
+	left: 50px;
+	padding: 10px;
+	width: 300px;
+	box-shadow: 0 0 3px rgba(0,0,0,0.5);
+	background-color: #fff;
+	z-index: 1044;
+	display: none;
+}
 #sipedang_imglogo {
 	width: 32px;
 }
@@ -27,8 +39,15 @@ body {
 	color: #fff;
 	text-align: center;
 }
-
+#sipedang_ctr_formreservasi {
+	display:none;
+}
 .pesan_sekarang
 {
 	display:none;
+}
+
+/* ------------- ADMIN ----------------- */
+.spd-meta {
+	font-size: 0.8em;
 }

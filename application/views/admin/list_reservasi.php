@@ -6,7 +6,7 @@
                         <!-- /.panel-heading -->
                         <div class="panel-body">
                             <div class="dataTable_wrapper">
-                                <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                <table class="table table-striped table-bordered table-hover" id="sipedang_tabelreservasi">
                                     <thead>
                                         <tr>
                                             <th>Nama Kegiatan</th>
@@ -17,13 +17,33 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr class="odd gradeX">
-                                            <td>Trident</td>
-                                            <td>Internet Explorer 4.0</td>
-                                            <td>Win 95+</td>
-                                            <td class="center">4</td>
-                                            <td class="center">X</td>
-                                        </tr>
+<?php
+	$nowTimeStamp = strtotime("now");
+	foreach ($listReservasi as $itemReservasi) {
+		$selisihHari = floor((strtotime($itemReservasi->waktuMulaiPinjam) - $nowTimeStamp)/60/60/24);
+		$actionList = "<a href=\"".site_url("/pengelola/ControlReservasi/detil_reservasi/".
+				$itemReservasi->idReservasi)."\"><span class=\"fa fa-search\"></span> Detil</a>\n";
+		if ($itemReservasi->statusReservasi == 0) {
+			$actionList .= "<a href=\"#\" class=\"btn btn-success btn-xs\" onclick=\"return approve_reservasi(".
+				$itemReservasi->idReservasi.");\">".
+				"<span class=\"fa fa-check\"></span> Approve</a>\n";
+		}
+		echo "	<tr>\n";
+		echo " 		<td>".htmlspecialchars($itemReservasi->kegiatan)."<br>";
+		echo "<div class=\"spd-meta\"><span class=\"fa fa-tag\"></span> <b>".$listKategori[$itemReservasi->kategoriKegiatan]."</b></div></td>\n";
+		echo "		<td>".$itemReservasi->waktuMulaiPinjam." - ".$itemReservasi->waktuSelesaiPinjam;
+		echo "<div class=\"spd-meta\">".$selisihHari." hari lagi.</div></td>\n";
+		echo "		<td>".htmlspecialchars($itemReservasi->penyelenggara)."</td>\n";
+		echo "		<td>".MY_Loader::$htmlStatus[$itemReservasi->statusReservasi]." ";
+		if ($itemReservasi->statusReservasi == 0)
+			if ($itemReservasi->expireTime < strtotime("now")) echo
+				"<br><span class=\"label label-danger\">Expired</span>";
+		echo "</td>\n";
+		echo "		<td>".$actionList."</td>\n";
+		echo "	</tr>\n";
+	}
+
+?>
                                     </tbody>
                                 </table>
                             </div>
@@ -40,9 +60,20 @@
     <!-- Page-Level Demo Scripts - Tables - Use for reference -->
     <script>
     $(document).ready(function() {
-        $('#dataTables-example').DataTable({
+        $('#sipedang_tabelreservasi').DataTable({
                 responsive: true
         });
     });
+    function approve_reservasi(idReservasi) {
+		var userResp = confirm("Setujui reservasi?");
+		if (!userResp) return false;
+
+		$("#sipedang_loadingbox").show();
+		$("body").append('<form action="<?php echo site_url('/pengelola/ControlReservasi/approve_reservasi'); ?>" method="POST" id="sipedang_acceptor">');
+		$("#sipedang_acceptor").append('<input type="hidden" name="sipedang_idreservasi" value="'+idReservasi+'" />');
+		$("#sipedang_acceptor").append('<input type="hidden" name="sipedang_submit" value="submit-"/>');
+		$("#sipedang_acceptor").submit();
+		return false;
+    }
     </script>
 
