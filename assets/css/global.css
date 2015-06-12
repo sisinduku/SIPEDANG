@@ -47,6 +47,42 @@ body {
 	display:none;
 }
 
+/* ------------- TAMU ----------------- */
+.stepsudah {
+	text-decoration: none;
+	color: lightgreen;
+	text-align:center;
+	padding: 25px;
+}
+
+.stepsudah:hover {
+	cursor: default;
+}
+
+.steplagi{
+	background-color: #E3E3E3; 
+	color:green; 
+	text-align:center;
+	padding: 25px;
+	margin-right: 15px;
+}
+
+.steplagi:hover{
+	cursor: default;
+}
+
+.stepbelum{
+	color:gainsboro;
+	text-align:center;
+	padding: 25px;
+	cursor: default;
+}
+
+.stepbelum:hover{
+	cursor: default;
+}
+
+
 /* ------------- ADMIN ----------------- */
 .spd-meta {
 	font-size: 0.8em;
