@@ -3,13 +3,59 @@
 	<div class="row">
 		<div class="col-lg-12">
 			<h1 class="page-header">
-				<span class="fa fa-dashboard"></span> Dasbor
+				<span class="fa fa-dashboard"></span> Dashboard
 			</h1>
 		</div>
 		<!-- /.col-lg-12 -->
 	</div>
 	<!-- /.row -->
 	<div class="row">
+		<div class="col-lg-3 col-md-6">
+			<div class="panel panel-red">
+				<div class="panel-heading">
+					<div class="row">
+						<div class="col-xs-3">
+							<i class="fa fa-comments fa-5x"></i>
+						</div>
+						<div class="col-xs-9 text-right">
+							<div class="huge"><?php echo $jumlahPending; ?></div>
+							<div>Pending</div>
+						</div>
+					</div>
+				</div>
+				<a href="<?php echo site_url("/pengelola/ControlReservasi/list_reservasi/pending"); ?>">
+					<div class="panel-footer">
+						<span class="pull-left">Lihat Detil</span> <span
+							class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+						<div class="clearfix"></div>
+					</div>
+				</a>
+			</div>
+		</div>
+		
+		<div class="col-lg-3 col-md-6">
+			<div class="panel panel-green">
+				<div class="panel-heading">
+					<div class="row">
+						<div class="col-xs-3">
+							<i class="fa fa-comments fa-5x"></i>
+						</div>
+						<div class="col-xs-9 text-right">
+							<div class="huge"><?php echo $jumlahPending; ?></div>
+							<div>Approved</div>
+						</div>
+					</div>
+				</div>
+				<a href="<?php echo site_url("/pengelola/ControlReservasi/list_reservasi/approved"); ?>">
+					<div class="panel-footer">
+						<span class="pull-left">Lihat Detil</span> <span
+							class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+						<div class="clearfix"></div>
+					</div>
+				</a>
+			</div>
+		</div>
+		
 		<div class="col-lg-3 col-md-6">
 			<div class="panel panel-primary">
 				<div class="panel-heading">
@@ -32,31 +78,9 @@
 				</a>
 			</div>
 		</div>
+		
 		<div class="col-lg-3 col-md-6">
 			<div class="panel panel-yellow">
-				<div class="panel-heading">
-					<div class="row">
-						<div class="col-xs-3">
-							<span class="glyphicon glyphicon-warning-sign"
-								style="font-size: 5em;"></span>
-						</div>
-						<div class="col-xs-9 text-right">
-							<div class="huge"><?php echo $jumlahPending; ?></div>
-							<div>Request Pending</div>
-						</div>
-					</div>
-				</div>
-				<a href="<?php echo site_url("/pengelola/ControlReservasi/list_reservasi/pending"); ?>">
-					<div class="panel-footer">
-						<span class="pull-left">Lihat Detil</span> <span
-							class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-						<div class="clearfix"></div>
-					</div>
-				</a>
-			</div>
-		</div>
-		<div class="col-lg-3 col-md-6">
-			<div class="panel panel-green">
 				<div class="panel-heading">
 					<div class="row">
 						<div class="col-xs-3">
@@ -77,6 +101,7 @@
 				</a>
 			</div>
 		</div>
+		
 		<!-- <div class="col-lg-3 col-md-6">
                     <div class="panel panel-red">
                         <div class="panel-heading">
@@ -105,7 +130,7 @@
 
 	<div class="row">
 		<div class="col-lg-6">
-			<div class="panel panel-default">
+			<div class="panel panel-primary">
 				<div class="panel-heading">
 					<h3 class="panel-title">Kegiatan Akan Datang</h3>
 				</div>
@@ -151,7 +176,27 @@ foreach ( $listReservasi as $itemReservasi ) {
 					<div id="sipedang_kalendarreservasi_admin"></div>
 				</div>
 			</div>
+			
+			<div class="panel panel-warning">
+				<div class="panel-heading">
+					<h3 class="panel-title">Daftar Kegiatan</h3>
+				</div>
+				<div id="sipedang_daftar_kegiatan_admin" class="panel-body">
+					<table class="table table-striped table-bordered table-hover">
+						<thead>
+							<tr>
+								<th></th>
+								<th></th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+				</div>
+			</div>
 		</div>
+		
 	</div>
 </div>
 <link href='<?php echo base_url("/assets/css/fullcalendar.min.css"); ?>' rel='stylesheet' />

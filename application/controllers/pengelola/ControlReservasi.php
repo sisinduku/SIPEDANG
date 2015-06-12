@@ -42,6 +42,7 @@ class ControlReservasi extends CI_Controller {
 	}
 	
 	public function list_reservasi($statusReservasi = "pending") {
+		
 		if (!$this->load->check_session()) return;
 		$data['loggedInUser'] = $this->nativesession->get(MY_Loader::SESS_ID_UID);
 		
@@ -50,11 +51,13 @@ class ControlReservasi extends CI_Controller {
 			$data['pageTitle'] = "List Reservasi [Approved]";
 			$data['listReservasi'] =
 				$this->DataReservasi->get_kegiatan(DataReservasi::STAT_ACCEPTED,-1,date("Y-m-d H:i:s"));
+			$data['tampil_tombol_cetak'] = 1;	
 			
 		} else {
 			$data['pageTitle'] = "List Reservasi [Pending]";
 			$data['listReservasi'] =
 				$this->DataReservasi->get_kegiatan(DataReservasi::STAT_PENDING,-1,date("Y-m-d H:i:s"));
+			$data['tampil_tombol_cetak'] = 0;
 		}
 		$data['listKategori'] = $this::$listKategori;
 		$this->load->template_admin("admin/list_reservasi", $data);
