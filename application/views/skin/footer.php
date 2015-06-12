@@ -1,5 +1,5 @@
 			</div> <!-- End of body row -->
-		<div class="row" id="sipedang_footer">
+		<div class="row" id="sipedang_footer" style="padding-top:25px;">
 			<div class="col-md-8"> 
 				<div class="panel panel-default" style="padding:0px">
 					<div class="panel-heading">

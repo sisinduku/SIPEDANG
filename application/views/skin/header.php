@@ -46,7 +46,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="<?php echo base_url("/"); ?>" style="color: #F5F5F5"><b>SIPEDANG</b></a>
+          <a class="navbar-brand" href="<?php echo base_url("/"); ?>" style="color: #F5F5F5"><b><span class="glyphicon glyphicon-home"></span> SIPEDANG</b></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right" style="color: #F5F5F5">
@@ -163,7 +163,7 @@
 				
 			</div>
 			<div class="col-sm-4">
-				<button onclick="return toggle_form();" type="button" class="btn btn-info" style="margin: 5px"><b>Formulir Reservasi</b>  <span class="glyphicon glyphicon-menu-down"></span></button>
+				<button onclick="return toggle_form();" type="button" class="btn btn-info" style="margin: 5px; background-color: #686868; border: none;"><b>Formulir Reservasi</b>  <span class="glyphicon glyphicon-menu-down"></span></button>
 			</div>
 		</div>
 <?php } //================ END IF ============================ ?>

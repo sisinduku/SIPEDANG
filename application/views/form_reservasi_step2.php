@@ -48,7 +48,7 @@
 				</div>
 				
 				<div class="row">
-					<div class="col-sm-4"><button type="submit" name="" class="btn btn-primary btn-md btn-block button">Lanjut</button></div>
+					<div class="col-sm-4"><button type="submit" name="" class="btn btn-primary btn-md btn-block button" style="margin:15px">Lanjut</button></div>
 					<div class=" col-sm-4"></div>
 					<div class="col-sm-4"></div>
 				</div>

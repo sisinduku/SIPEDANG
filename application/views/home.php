@@ -1,7 +1,22 @@
 <!-- AM-SIPEDANG-01 -->
 <div class="col-md-8">
 <div class="well">
-	<h3>Kegiatan Terdekat:</h3>
+	<div class="panel panel-default">
+	  <div class="panel-heading">
+	    <h3 class="panel-title">
+	    	<span class="glyphicon glyphicon-bullhorn"></span> Kegiatan Terdekat</h3>
+	  </div>
+	  <div class="panel-body">
+	  </div>
+	</div>
+	<div class="panel panel-default">
+	  <div class="panel-heading">
+	    <h3 class="panel-title">
+	    	<span class="glyphicon glyphicon-tasks"></span> Akan Datang</h3>
+	  </div>
+	  <div class="panel-body">
+	  </div>
+	</div>
 <?php
 if (!empty($kegiatanTerdekat[0])) {
 	$waktuKegiatan = strtotime($kegiatanTerdekat[0]->waktuMulaiPinjam);
