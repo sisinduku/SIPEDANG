@@ -56,6 +56,7 @@ body {
 }
 
 .stepsudah:hover {
+	text-decoration: none;
 	cursor: default;
 }
 
@@ -68,6 +69,7 @@ body {
 }
 
 .steplagi:hover{
+	text-decoration: none;
 	cursor: default;
 }
 
@@ -79,6 +81,7 @@ body {
 }
 
 .stepbelum:hover{
+	text-decoration: none;
 	cursor: default;
 }
 

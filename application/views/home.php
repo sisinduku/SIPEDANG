@@ -52,9 +52,9 @@ foreach ($kegiatanTerdekat as $itemKegiatan) {
 	  </div>
 	  <div class="panel-body">
 	    <ol>
-	    	<li>Isi formulir</li>
-	    	<li>Datang ke ruang jurusan (konfirmasi) dalam kurang dari 3 jam dari pemesanan</li>
-	    	<li>Selesai</li>
+	    	<li>Mengisi formulir yang telah disediakan.</li>
+	    	<li>Datang ke ruang jurusan ATAU upload surat permohonan peminjaman untuk konfirmasi dalam kurang dari 3 jam dari pemesanan</li>
+	    	<li>Proses reservasi melalui SIPEDANG telah selesai</li>
 	    </ol>
 	  </div>
 	</div>

@@ -1,15 +1,27 @@
 			</div> <!-- End of body row -->
 		<div class="row" id="sipedang_footer">
-			<div class="col-md-8">
-				Link Terkait:<br>
+			<div class="col-md-8"> 
+				<div class="panel panel-default" style="padding:0px">
+					<div class="panel-heading">
+						<h3 class="panel-title">Tautan Terkait</h3>
+					</div>
+					<div class="panel-body">
+					</div>
+				</div>
 			</div>
-			<div class="col-md-4">
-				Supported by...
+			<div class="col-md-4"> 
+				<div class="panel panel-default" style="padding:0px">
+					<div class="panel-heading">
+						<h3 class="panel-title">Didukung Oleh</h3>
+					</div>
+					<div class="panel-body">
+					</div>
+				</div>
 			</div>
 			<div class="divclear"></div>
 		</div>
 		<div class="row" id="sipedang_bottom">
-			&copy; 2015 - SiPedang
+			&copy; 2015 - SIPEDANG
 		</div>
     </div> <!-- /container -->
 

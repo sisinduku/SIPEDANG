@@ -23,7 +23,7 @@
 ?>
 
 	<form action="<?php echo site_url("/ControlReservasi/form_reservasi"); ?>" method="post">
-		<div class="row panel panel-default" style="margin: 0px 10px 0px 10px;">
+		<div class="row panel panel-default" style="margin: 10px 10px 0px 10px;">
 			<div class="panel-heading">
 				<h3 class="panel-title">Formulir Reservasi</h3>
 			</div>
