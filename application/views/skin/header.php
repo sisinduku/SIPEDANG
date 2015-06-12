@@ -13,9 +13,10 @@
 
     <!-- Bootstrap core CSS -->
     <link href="<?php echo base_url('assets/bower_components/bootstrap/dist/css/bootstrap.min.css')?>" rel="stylesheet">
+    <link href="<?php echo base_url('assets/css/global.css')?>" rel="stylesheet">
     
     <!-- Custom styles for this template -->
-    <link href="<?php echo base_url('assets/css/global.css')?>" rel="stylesheet">
+    <link href="<?php echo base_url('assets/css/flickity.css')?>" rel="stylesheet">
 	
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -25,6 +26,7 @@
     
     <script src="<?php echo base_url('/assets/bower_components/jquery/dist/jquery.min.js')?>"></script>
     <script src="<?php echo base_url('/assets/js/jquery.easing.1.3.min.js')?>"></script>
+    <script src="<?php echo base_url('/assets/js/flickity.pkgd.min.js')?>"></script>
     <link rel="stylesheet" type="text/css" href="<?php echo base_url("/assets/css/daterangepicker-bs3.css"); ?>" />
 	
     <?php if (isset($needJQueryUI)) { //======= BUTUH JQUERY-UI? ====== ?>
@@ -54,7 +56,7 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
             <li <?php if ($pageMenuId == 1) echo "class=\"active\""; ?>><a href="<?php echo site_url("/"); ?>">Home</a></li>
-            <li><a href="#about">Kategori</a></li>
+            <li <?php if ($pageMenuId == 2) echo "class=\"active\""; ?>><a href="<?php echo site_url("/ControlReservasi/kategori"); ?>">Kategori</a></li>
             <li <?php if ($pageMenuId == 3) echo "class=\"active\""; ?>><a href="<?php echo site_url("/ControlReservasi/tampil_kalender"); ?>">Kalender</a></li>
           </ul>
         </div><!--/.nav-collapse -->

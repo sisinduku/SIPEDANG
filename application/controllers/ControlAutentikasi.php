@@ -7,7 +7,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 class ControlAutentikasi extends CI_Controller {
 	public function index() {
-		if ($this->check_session(false)) {
+		if ($this->load->check_session(false)) {
 			$this->output->set_header("Location: ".site_url("/pengelola"));
 			return;
 		}
@@ -95,5 +95,91 @@ class ControlAutentikasi extends CI_Controller {
 			} // End if empty post
 		} // End if submit
 		$this->load->template_admin("admin/form_ubah_password", $data);
+	}
+	
+	function reset_password() {
+		// Genereate link reset password
+		$this->load->model('DataPengelola');
+		$this->load->model('RequestResetPassword');
+		
+		$dataPengelola = $this->DataPengelola->get_data_pengelola("administrator");
+		$tujuanEmail = $dataPengelola->email;
+		$kontenEmail = $this->RequestResetPassword->sendRequestKey($tujuanEmail);
+		
+		// Kirim email
+		$this->load->library('email');
+		
+		$this->email->from('panitia@carakafest.org', 'SiPedang');
+		$this->email->to($tujuanEmail);
+		
+		$this->email->subject("[SIPEDANG] Reset Password");
+		$this->email->message($kontenEmail);
+		
+		$berhasil = $this->email->send();
+		
+		$reportToLog = "\r\n[".date('j F Y, H:i:s')."]\t: mailto [".$tujuanEmail."]\t: ";
+		
+		if (!$berhasil) {
+			$reportToLog .= "Mailer Error!";
+		} else {
+			$reportToLog .= "Message sent...";
+		}
+		
+		$dateChunk = date("Ymd-His");
+		$reportToLog .= "\t[SIPEDANG] | [".$dateChunk.".html]";
+		
+		file_put_contents(APPPATH."/logs/email.log", $reportToLog, FILE_APPEND);
+		file_put_contents(APPPATH."/logs/emails/".$dateChunk.".html", $kontenEmail);
+		
+		$data['pageTitle'] = "Reset Password";
+		$data['submitErrors'] = array();
+		$data['simplePage'] = true;
+		
+		$this->load->template_admin("admin/notif_cek_email", $data);
+	}
+	
+	function do_reset_password($requestKey = null) {
+		$data['pageTitle'] = "Reset Password";
+		$data['simplePage'] = true;
+		if ($requestKey != null) {
+			$this->load->model("RequestResetPassword");
+			$dataRequest = $this->RequestResetPassword->get_request_key($requestKey);
+			if ($dataRequest != null) {
+				if (($dataRequest->expiredRequest >= time()) && ($dataRequest->statusRequest == 1)) {
+					if ($this->input->post('sipedang_submit')) {
+						$passBaru1	= ($this->input->post("sipedang_sandi_baru1"));
+						$passBaru2	= ($this->input->post("sipedang_sandi_baru2"));
+						
+						$hashPassBaru = md5($passBaru1);
+					
+						if ($hashPassBaru != md5($passBaru2)) {
+							$data['submitErrors'][] = "Password baru dan konfirmasi tidak sama.";
+						} else {
+							$this->load->model("DataPengelola");
+							
+							$queryResult = $this->DataPengelola->set_hashed_password("administrator", $passBaru1);
+							if ($queryResult == null) {
+								$this->RequestResetPassword->deactivate_key($requestKey);
+								$data['submitInfos'][] = "<span class=\"fa fa-check\"></span> Kata sandi berhasil direset.";
+								$data['hideForm'] = true;
+							} else {
+								$data['submitErrors'][] = $queryResult;
+							}
+						}
+					} // End if POST
+				} else {
+					$data['submitErrors'] = array("Request sudah tidak berlaku. Silakan request ulang.");
+					$data['hideForm'] = true;
+				}
+			} else {
+				$data['submitError'] = array("Kunci request tidak valid.");
+				$data['hideForm'] = true;
+			}
+		} else {
+			$this->output->set_header("Location: ".site_url("/pengelola"));
+			return;
+		}
+		$data['formAction'] = "/ControlAutentikasi/do_reset_password/".$requestKey;
+		$this->load->template_admin("admin/form_reset_password", $data);
 	}
 }

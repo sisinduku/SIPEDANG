@@ -32,6 +32,20 @@ class ControlReservasi extends CI_Controller {
 		$this->load->template("home", $data);
 	}
 	
+	public function kategori() {
+		$data['pageTitle'] = "Kegiatan per Kategori";
+		$data['pageMenuId'] = 2;
+		$data['listKategori'] = $this::$listKategori;
+		
+		$this->load->model("DataReservasi");
+		foreach ($data['listKategori'] as $idx => $itemKategori) {
+			$data['listKegiatanKategori'][$idx] =
+				$this->DataReservasi->get_kegiatan_by_kategori(
+						$idx, DataReservasi::STAT_ACCEPTED, 5, date("Y-m-d H:i:s"));
+		}
+		
+		$this->load->template("tampilkegiatankategori", $data);
+	}
 	/**
 	 * Menampilkan halaman kalender
 	 */
@@ -221,6 +235,16 @@ class ControlReservasi extends CI_Controller {
 	}
 	
 	public function form_reservasi_step_3() {
+		// Pastikan data reservasi pada tahap 2 sudah ada/tersimpan
+		if ($this->nativesession->get('spd_rsv_status')!=true) {
+			$this->output->set_header("Location: ".site_url("/ControlReservasi/form_reservasi"));
+			return;
+		}
+		
+		// Hapus sesi
+		$this->nativesession->delete('spd_rsv_status');
+		$this->nativesession->delete('spd_rsv_data');
+		
 		$data['pageTitle'] = "Informasi Reservasi";
 		$data['pageMenuId'] = 1;
 	
@@ -235,6 +259,18 @@ class ControlReservasi extends CI_Controller {
 		$this->load->template("form_reservasi_step3", $data);
 	}
 	
+	public function ajax_detil_kegiatan() {
+		$idKegiatan = $this->input->post('id');
+		
+		$this->load->model("DataReservasi");
+		$data['dataKegiatan'] = $this->DataReservasi->get_kegiatan_by_id($idKegiatan);
+		if ($data['dataKegiatan']) {
+			$this->load->view("detil_kegiatan", $data);
+		} else {
+			$this->output->append_output("Kegiatan tidak ditemukan...");
+		}
+		
+	}
 	public function ajax_get_listreservasi() {
 		$this->load->model("DataReservasi");
 		
@@ -258,7 +294,7 @@ class ControlReservasi extends CI_Controller {
 					'id'		=> $itemReservasi->idReservasi,
 					'title'		=> $itemReservasi->kegiatan,
 					'allDay'	=> false,
-					'url'		=> site_url("/ControlReservasi/detil_reservasi/".$itemReservasi->idReservasi),
+					'url'		=> '#',
 					'start'		=> $itemReservasi->waktuMulaiPinjam,
 					'end'		=> $itemReservasi->waktuSelesaiPinjam
 			);

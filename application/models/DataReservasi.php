@@ -147,15 +147,13 @@ class DataReservasi extends CI_Model {
 					$this->db->where('statusReservasi', $statusReservasi);
 				}
 			}
-			
-			
 		}
 			
 		if ($limit > 0)
 			$this->db->limit($limit);
 		
 		if($limitTanggal != null) {
-			$this->db->where('waktuMulaiPinjam >=', $limitTanggal);
+			$this->db->where("waktuMulaiPinjam >=",$limitTanggal);
 		}
 			
 		
@@ -170,6 +168,44 @@ class DataReservasi extends CI_Model {
 			$index++;
 		}
 		
+		return $query_result;
+	}
+	
+	function get_kegiatan_by_kategori($idKategori, $statusReservasi = -1, $limit = -1, $limitTanggal = null){
+		$this->db->where("kategoriKegiatan", $idKategori);
+		if ($statusReservasi != -1) {
+			if (is_array($statusReservasi)) {
+				$this->db->where_in('statusReservasi', $statusReservasi);
+			} else {
+				if ($statusReservasi == $this::STAT_ACTIVE_RESERVATION) {
+					$whereClauseActivePending =
+					"(statusReservasi=".$this::STAT_PENDING." AND expireTime >= ".strtotime("now").")";
+					$this->db->where('(statusReservasi='.$this::STAT_ACCEPTED." OR {$whereClauseActivePending})");
+				} else {
+					$this->db->where('statusReservasi', $statusReservasi);
+				}
+			}
+		}
+			
+		if ($limit > 0)
+			$this->db->limit($limit);
+	
+		if($limitTanggal != null) {
+			$this->db->where("waktuMulaiPinjam >=",$limitTanggal);
+		}
+			
+	
+		$this->db->order_by("waktuMulaiPinjam ASC");
+	
+		$result = $this->db->get('tbl_data_reservasi');
+		$index = 0;
+		$query_result = array();
+	
+		foreach ($result->result() as $row){
+			$query_result[$index] = $row;
+			$index++;
+		}
+	
 		return $query_result;
 	}
 	
