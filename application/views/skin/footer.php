@@ -3,7 +3,7 @@
 			<div class="col-md-8"> 
 				<div class="panel panel-default" style="padding:0px">
 					<div class="panel-heading">
-						<h3 class="panel-title">Tautan Terkait</h3>
+						<h3 class="panel-title"><span class="glyphicon glyphicon-link"></span> Tautan Terkait</h3>
 					</div>
 					<div class="panel-body">
 					</div>
@@ -12,7 +12,7 @@
 			<div class="col-md-4"> 
 				<div class="panel panel-default" style="padding:0px">
 					<div class="panel-heading">
-						<h3 class="panel-title">Didukung Oleh</h3>
+						<h3 class="panel-title"><span class="glyphicon glyphicon-flag"></span> Didukung Oleh</h3>
 					</div>
 					<div class="panel-body">
 					</div>

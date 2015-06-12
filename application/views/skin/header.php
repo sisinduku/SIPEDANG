@@ -37,7 +37,7 @@
   <body role="document">
 
     <!-- Fixed navbar -->
-    <nav class="navbar navbar-inverse navbar-fixed-top">
+    <nav class="navbar navbar-inverse navbar-fixed-top" style="background-color: #686868; border: none;">
       <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -46,10 +46,10 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="<?php echo base_url("/"); ?>"><b>SIPEDANG</b></a>
+          <a class="navbar-brand" href="<?php echo base_url("/"); ?>" style="color: #F5F5F5"><b>SIPEDANG</b></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav navbar-right">
+          <ul class="nav navbar-nav navbar-right" style="color: #F5F5F5">
             <li <?php if ($pageMenuId == 1) echo "class=\"active\""; ?>><a href="<?php echo site_url("/"); ?>">Home</a></li>
             <li><a href="#about">Kategori</a></li>
             <li <?php if ($pageMenuId == 3) echo "class=\"active\""; ?>><a href="<?php echo site_url("/ControlReservasi/tampil_kalender"); ?>">Kalender</a></li>
@@ -60,7 +60,7 @@
 
     <div class="container" role="main" id="sipedang_body">
 		<div class="row">
-			<img src="<?php echo base_url("/assets/images/header_home.jpg"); ?>" alt="SiPedang" style="width:100%;" />
+			<img src="<?php echo base_url("/assets/images/header_home.png"); ?>" alt="SiPedang" style="width:100%;" />
 		</div>
 <?php if (!isset($hideFormReservasi)) { //=============== Jika form reservasi ditampilkan ======== ?>
 		<div class="row" id="sipedang_ctr_formreservasi">
@@ -163,7 +163,7 @@
 				
 			</div>
 			<div class="col-sm-4">
-				<button onclick="return toggle_form();" type="button" class="btn btn-primary" style="margin: 5px"><b>Formulir Reservasi</b>  <span class="glyphicon glyphicon-menu-down"></span></button>
+				<button onclick="return toggle_form();" type="button" class="btn btn-info" style="margin: 5px"><b>Formulir Reservasi</b>  <span class="glyphicon glyphicon-menu-down"></span></button>
 			</div>
 		</div>
 <?php } //================ END IF ============================ ?>
