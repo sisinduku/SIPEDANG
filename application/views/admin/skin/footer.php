@@ -7,6 +7,9 @@
         <!-- /#page-wrapper -->
 
     </div>
+	<div class="footer" style="background-color:black; height:100%;">
+        <p style="text-align:center; padding-top:10px; color:white;"><b>Copyright@SIPEDANG</b></p>
+    </div>
     <!-- /#wrapper -->
 <?php } //=============== END IF ======================== ?>
 	<div id="sipedang_loadingbox">

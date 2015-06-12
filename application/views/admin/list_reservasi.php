@@ -3,6 +3,13 @@
               <div class="col-lg-12">
 				<h2>List Reservasi</h2>
                     <div class="panel panel-default">
+						<?php
+							if ($tampil_tombol_cetak==1)
+							{
+								echo '<button type="button" class="btn btn-primary"><i class="glyphicon glyphicon-print" style="margin-right:5px;"></i>Cetak Arsip</button>';
+							}
+						?>
+						
                         <!-- /.panel-heading -->
                         <div class="panel-body">
                             <div class="dataTable_wrapper">

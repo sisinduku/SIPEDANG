@@ -1,7 +1,24 @@
 <!-- AM-SIPEDANG-01 -->
 <div class="col-md-8">
+
 	<div class="well">
-		<h3>Kegiatan Terdekat:</h3>
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">
+					<span class="glyphicon glyphicon-bullhorn"></span> Kegiatan
+					Terdekat
+				</h3>
+			</div>
+			<div class="panel-body"></div>
+		</div>
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">
+					<span class="glyphicon glyphicon-tasks"></span> Akan Datang
+				</h3>
+			</div>
+			<div class="panel-body"></div>
+		</div>
 <?php
 if (! empty ( $kegiatanTerdekat [0] )) {
 	$waktuKegiatan = strtotime ( $kegiatanTerdekat [0]->waktuMulaiPinjam );
@@ -54,10 +71,10 @@ foreach ( $kegiatanTerdekat as $itemKegiatan ) {
 		</div>
 		<div class="panel-body">
 			<ol>
-				<li>Isi formulir</li>
-				<li>Datang ke ruang jurusan (konfirmasi) dalam kurang dari 3 jam
-					dari pemesanan</li>
-				<li>Selesai</li>
+				<li>Mengisi formulir yang telah disediakan.</li>
+				<li>Datang ke ruang jurusan ATAU upload surat permohonan peminjaman
+					untuk konfirmasi dalam kurang dari 3 jam dari pemesanan</li>
+				<li>Proses reservasi melalui SIPEDANG telah selesai</li>
 			</ol>
 		</div>
 	</div>
@@ -73,9 +90,7 @@ foreach ( $kegiatanTerdekat as $itemKegiatan ) {
 							alt="Loading..." /> <b>Loading....</b>
 					</div>
 				</div>
-				<div id="sipedang_dlg_main">
-					
-				</div>
+				<div id="sipedang_dlg_main"></div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
 				</div>
