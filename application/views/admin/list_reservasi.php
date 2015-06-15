@@ -6,7 +6,7 @@
 						<?php
 							if ($tampil_tombol_cetak==1)
 							{
-								echo '<button type="button" class="btn btn-primary"><i class="glyphicon glyphicon-print" style="margin-right:5px;"></i>Cetak Arsip</button>';
+								echo '<a class="btn btn-primary" href="'.site_url("/pengelola/ControlReservasi/list_reservasi/".$listTag."?type=pdf").'"><i class="glyphicon glyphicon-print"></i> Cetak Arsip</a>';
 							}
 						?>
 						
@@ -27,7 +27,7 @@
 <?php
 	$nowTimeStamp = strtotime("now");
 	foreach ($listReservasi as $itemReservasi) {
-		$selisihHari = floor((strtotime($itemReservasi->waktuMulaiPinjam) - $nowTimeStamp)/60/60/24);
+		$selisihHari = ceil((strtotime($itemReservasi->waktuMulaiPinjam) - $nowTimeStamp)/60/60/24);
 		$actionList = "<a href=\"".site_url("/pengelola/ControlReservasi/detil_reservasi/".
 				$itemReservasi->idReservasi)."\"><span class=\"fa fa-search\"></span> Detil</a>\n";
 		if ($itemReservasi->statusReservasi == 0) {
@@ -38,7 +38,7 @@
 		echo "	<tr>\n";
 		echo " 		<td>".htmlspecialchars($itemReservasi->kegiatan)."<br>";
 		echo "<div class=\"spd-meta\"><span class=\"fa fa-tag\"></span> <b>".$listKategori[$itemReservasi->kategoriKegiatan]."</b></div></td>\n";
-		echo "		<td>".$itemReservasi->waktuMulaiPinjam." - ".$itemReservasi->waktuSelesaiPinjam;
+		echo "		<td>".format_range_tanggal_mysql($itemReservasi->waktuMulaiPinjam,$itemReservasi->waktuSelesaiPinjam);
 		echo "<div class=\"spd-meta\">".$selisihHari." hari lagi.</div></td>\n";
 		echo "		<td>".htmlspecialchars($itemReservasi->penyelenggara)."</td>\n";
 		echo "		<td>".MY_Loader::$htmlStatus[$itemReservasi->statusReservasi]." ";

@@ -51,6 +51,10 @@
                                     <a href="<?php echo site_url('pengelola/ControlReservasi/list_reservasi/approved')?>">
                                     	<span class="fa fa-check"></span> Approved</a>
                                 </li>
+                                <li>
+                                    <a href="<?php echo site_url('pengelola/ControlReservasi/list_reservasi/archive')?>">
+                                    	<span class="fa fa-folder"></span> Archived</a>
+                                </li>
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>

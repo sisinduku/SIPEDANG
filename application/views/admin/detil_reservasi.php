@@ -48,7 +48,7 @@
 						<table class="table">
 							<tbody>
 								<tr>
-									<td>Nama Kegiatan</td>
+									<td style="width: 30%;">Nama Kegiatan</td>
 									<td>: <?php echo htmlspecialchars($dataReservasi->kegiatan);?></td>
 								</tr>
 								<tr>
@@ -62,9 +62,11 @@
 								<tr>
 									<td>Tempat dan Waktu Pelaksanaan</td>
 									<td>: <?php 
-										echo "<b>".$dataReservasi->waktuMulaiPinjam."</b>";
-										echo " s/d ";
-										echo "<b>".$dataReservasi->waktuSelesaiPinjam."</b>";
+										echo format_range_tanggal_mysql(
+												$dataReservasi->waktuMulaiPinjam,
+												$dataReservasi->waktuSelesaiPinjam,
+												' s/d '
+											);
 									?></td>
 								</tr>
 								<tr>

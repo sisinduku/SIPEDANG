@@ -6,8 +6,11 @@
 		<!-- /.col-lg-12 -->
 		<div class="col-lg-12">
 			<div>
-				<button type="button" class="btn btn-danger disabled">
-					<span class="glyphicon glyphicon-print"></span> Cetak</button>
+				<a href="<?php
+				echo site_url("/pengelola/ControlReservasi/bukti_reservasi/".
+						$dataReservasi->idReservasi."?type=pdf"); ?>" class="btn btn-danger"
+						target="_blank">
+					<span class="glyphicon glyphicon-print"></span> Versi PDF</a>
 			</div>
 			<div class="panel panel-default">
 				<!-- /.panel-heading -->
@@ -30,9 +33,10 @@
 								<tr>
 									<td>Waktu Pelaksanaan</td>
 									<td>: <?php 
-										$strTglMulai	= MY_Loader::tanggalIndonesia(strtotime($dataReservasi->waktuMulaiPinjam), true, true);
-										$strTglSelesai	= MY_Loader::tanggalIndonesia(strtotime($dataReservasi->waktuSelesaiPinjam), true, true);
-										echo "<b>".$strTglMulai."</b> sampai <b>".$strTglSelesai."</b>";
+										$strTglMulai	= strtotime($dataReservasi->waktuMulaiPinjam);
+										$strTglSelesai	= strtotime($dataReservasi->waktuSelesaiPinjam);
+										$strTglRange	= format_range_tanggal($strTglMulai, $strTglSelesai);
+										echo "<b>".$strTglRange."</b>";
 									?></td>
 								</tr>
 								<tr>
@@ -58,13 +62,14 @@
 			<div class="panel panel-default">
 				<!-- /.panel-heading -->
 				<div class="panel-body">
-					<h4>Semarang, <?php echo MY_Loader::tanggalIndonesia(strtotime("now"), false); ?></h4>
-					<h4>Pengelola</h4>
-					<br><br>
-					<h4>Nama Pengelola</h4>
+					<b>Semarang, <?php echo format_tanggal_formal(strtotime("now"), false, false); ?></b><br>
+					<b>Pengelola</b>
+					<div style="height:75px;"></div>
+					<b>Nama Pengelola</b>
 				</div>
 				<!-- /.panel-body -->
 			</div>
 			<!-- /.panel -->
 		</div>
 	</div>
+</div>

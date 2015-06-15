@@ -9,7 +9,21 @@
 					Terdekat
 				</h3>
 			</div>
-			<div class="panel-body"></div>
+			<div class="panel-body">
+				<ul class="media-list" style="font-size: 1.3em;">
+				<?php
+if (! empty ( $kegiatanTerdekat [0] )) {
+	$waktuKegiatan = strtotime ( $kegiatanTerdekat [0]->waktuMulaiPinjam );
+	echo htmlspecialchars ( $kegiatanTerdekat [0]->kegiatan ) . "<br>\n";
+	echo "<small>Oleh " . htmlspecialchars ( $kegiatanTerdekat [0]->penyelenggara ) . " | ";
+	
+	echo $this->load->tanggalIndonesia ( $waktuKegiatan, true, false );
+	echo "| ". date ( "H:i", $waktuKegiatan )."</small>";
+}
+
+?>
+
+			</div>
 		</div>
 		<div class="panel panel-default">
 			<div class="panel-heading">
@@ -17,23 +31,9 @@
 					<span class="glyphicon glyphicon-tasks"></span> Akan Datang
 				</h3>
 			</div>
-			<div class="panel-body"></div>
-		</div>
-<?php
-if (! empty ( $kegiatanTerdekat [0] )) {
-	$waktuKegiatan = strtotime ( $kegiatanTerdekat [0]->waktuMulaiPinjam );
-	echo "Nama kegiatan: " . htmlspecialchars ( $kegiatanTerdekat [0]->kegiatan ) . "<br>\n";
-	echo "Oleh: " . htmlspecialchars ( $kegiatanTerdekat [0]->penyelenggara ) . "<br>\n";
-	
-	echo $this->load->tanggalIndonesia ( $waktuKegiatan, true, false );
-	echo date ( "H:i", $waktuKegiatan );
-}
-
-?>
-	</div>
-
-	<ul class="media-list">
-<?php
+			<div class="panel-body">
+			<ul>
+				<?php
 foreach ( $kegiatanTerdekat as $itemKegiatan ) {
 	echo "<li class=\"media\">\n";
 	echo "	<div class=\"media-left\">\n";
@@ -48,8 +48,11 @@ foreach ( $kegiatanTerdekat as $itemKegiatan ) {
 	echo "	</div>\n";
 	echo "</li>\n";
 }
-?>
-	</ul>
+?></ul>
+			</div>
+		</div>
+
+	</div>
 </div>
 <div class="col-md-4">
 	<div class="panel panel-default">

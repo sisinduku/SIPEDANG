@@ -9,16 +9,22 @@ $config['protocol'] = 'smtp';
 /**
  * SMTP Server Address.
  */
-$config['smtp_host'] = 'mail.sipedang.if.undip.ac.id';
+$config['smtp_host'] = 'ssl://smtp.googlemail.com';
 
 /**
  * SMTP Username.
  */
-$config['smtp_user'] = '';
+$config['smtp_user']	= 'it@carakafest.org';
 
 /**
  * SMTP Password.
  */
-$config['smtp_pass'] = '';
+$config['smtp_pass']    = 'itdariGue';
 
-$config['mailtype'] = 'html';
+$config['mailtype']		= 'html';
+
+$config['smtp_port']	= '465';
+
+$config['charset']    = 'utf-8';
+$config['newline']    = "\r\n";
+$config['validation'] = TRUE; // bool whether to validate email or not

@@ -23,9 +23,9 @@ class ControlReservasi extends CI_Controller {
 		$data['pageTitle'] = "Home";
 		$data['pageMenuId'] = 1;
 		
-		$this->load->model("DataReservasi");
-		$data['kegiatanTerdekat'] = $this->DataReservasi->get_kegiatan(
-				DataReservasi::STAT_ACCEPTED, 5, date("Y-m-d H:i:s"));
+		$this->load->model("Datareservasi");
+		$data['kegiatanTerdekat'] = $this->Datareservasi->get_kegiatan(
+				Datareservasi::STAT_ACCEPTED, 5, date("Y-m-d H:i:s"));
 		
 		$data['needJQueryUI'] = true;
 		$data['listKategori']		= $this::$listKategori;
@@ -37,11 +37,11 @@ class ControlReservasi extends CI_Controller {
 		$data['pageMenuId'] = 2;
 		$data['listKategori'] = $this::$listKategori;
 		
-		$this->load->model("DataReservasi");
+		$this->load->model("Datareservasi");
 		foreach ($data['listKategori'] as $idx => $itemKategori) {
 			$data['listKegiatanKategori'][$idx] =
-				$this->DataReservasi->get_kegiatan_by_kategori(
-						$idx, DataReservasi::STAT_ACCEPTED, 5, date("Y-m-d H:i:s"));
+				$this->Datareservasi->get_kegiatan_by_kategori(
+						$idx, Datareservasi::STAT_ACCEPTED, 5, date("Y-m-d H:i:s"));
 		}
 		
 		$this->load->template("tampilkegiatankategori", $data);
@@ -52,7 +52,7 @@ class ControlReservasi extends CI_Controller {
 	public function tampil_kalender() {
 		$data['pageTitle'] = "Kalendar";
 		$data['pageMenuId'] = 3;
-		$this->load->model("DataReservasi");
+		$this->load->model("Datareservasi");
 		$data['listKategori']		= $this::$listKategori;
 		$this->load->template("kalenderkegiatan", $data);
 	}
@@ -102,10 +102,10 @@ class ControlReservasi extends CI_Controller {
 					if (strtotime($data['sipedang_tglmulai']) >= strtotime($data['sipedang_tglselesai'])) {
 						$data['submitErrors'][] = "Range waktu peminjaman tidak valid!";
 					} else {
-						$this->load->model("DataReservasi");
-						$listReservasiKonflik = $this->DataReservasi->get_kegiatan_by_daterange(
+						$this->load->model("Datareservasi");
+						$listReservasiKonflik = $this->Datareservasi->get_kegiatan_by_daterange(
 							$data['sipedang_tglmulai'], $data['sipedang_tglselesai'],
-							DataReservasi::STAT_ACTIVE_RESERVATION, 1
+							Datareservasi::STAT_ACTIVE_RESERVATION, 1
 						);
 						if (count($listReservasiKonflik) > 0) {
 							$data['submitErrors'][] = "Maaf, range tanggal yang Anda masukkan bertabrakan dengan ".
@@ -222,8 +222,8 @@ class ControlReservasi extends CI_Controller {
 				$dataReservasi['deskripsiKegiatan'] = $data['sipedang_deskripsi'];
 				$dataReservasi['gambar'] 			= $data['sipedang_filegambar'];
 				
-				$this->load->model("DataReservasi");
-				$this->DataReservasi->set_kegiatan($dataReservasi);
+				$this->load->model("Datareservasi");
+				$this->Datareservasi->set_kegiatan($dataReservasi);
 				$this->output->set_header("Location: ".site_url("/ControlReservasi/form_reservasi_step_3"));
 				return;
 			} else {
@@ -262,8 +262,8 @@ class ControlReservasi extends CI_Controller {
 	public function ajax_detil_kegiatan() {
 		$idKegiatan = $this->input->post('id');
 		
-		$this->load->model("DataReservasi");
-		$data['dataKegiatan'] = $this->DataReservasi->get_kegiatan_by_id($idKegiatan);
+		$this->load->model("Datareservasi");
+		$data['dataKegiatan'] = $this->Datareservasi->get_kegiatan_by_id($idKegiatan);
 		if ($data['dataKegiatan']) {
 			$this->load->view("detil_kegiatan", $data);
 		} else {
@@ -272,7 +272,7 @@ class ControlReservasi extends CI_Controller {
 		
 	}
 	public function ajax_get_listreservasi() {
-		$this->load->model("DataReservasi");
+		$this->load->model("Datareservasi");
 		
 		$startDate	= $_GET['start'];
 		$endDate	= $_GET['end'];
@@ -282,8 +282,8 @@ class ControlReservasi extends CI_Controller {
 		if (!preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/",$endDate))
 			die("Invalid date format!");
 	
-		$listReservasi = $this->DataReservasi->get_kegiatan_by_daterange(
-				$startDate, $endDate, DataReservasi::STAT_ACCEPTED
+		$listReservasi = $this->Datareservasi->get_kegiatan_by_daterange(
+				$startDate, $endDate, Datareservasi::STAT_ACCEPTED
 		);
 	
 		$ajaxOutput = array();

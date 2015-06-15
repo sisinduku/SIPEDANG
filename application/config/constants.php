@@ -84,3 +84,28 @@ define('EXIT_USER_INPUT', 7); // invalid user input
 define('EXIT_DATABASE', 8); // database error
 define('EXIT__AUTO_MIN', 9); // lowest automatically-assigned error code
 define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
+
+static $namaHari = array(
+		0 => "Minggu",
+		1 => "Senin",
+		2 => "Selasa",
+		3 => "Rabu",
+		4 => "Kamis",
+		5 => "Jumat",
+		6 => "Sabtu"
+);
+
+static $namaBulan = array(
+		1 => "Januari",
+		"Februari",
+		"Maret",
+		"April",
+		"Mei",
+		"Juni",
+		"Juli",
+		"Agustus",
+		"September",
+		"Oktober",
+		"November",
+		"Desember"
+);

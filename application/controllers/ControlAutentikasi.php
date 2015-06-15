@@ -27,8 +27,8 @@ class ControlAutentikasi extends CI_Controller {
 			$userPass = $this->input->post("sipedang_sandi");
 			
 			if (!empty($userName)) {
-				$this->load->model("DataPengelola");
-				$dataPengelola = $this->DataPengelola->get_data_pengelola($userName);
+				$this->load->model("Datapengelola");
+				$dataPengelola = $this->Datapengelola->get_data_pengelola($userName);
 				if ($dataPengelola != null) {
 					if ((crypt($userPass, $dataPengelola->password)) === $dataPengelola->password) { // Password benar...
 						$this->nativesession->set(MY_Loader::SESS_ID_UID, $userName);
@@ -74,11 +74,11 @@ class ControlAutentikasi extends CI_Controller {
 				} else if ($hashPassBaru != md5($passBaru2)) {
 					$data['submitErrors'][] = "Password baru dan konfirmasi tidak sama.";
 				} else {
-					$this->load->model("DataPengelola");
-					$hashPasswordLama = $this->DataPengelola->get_hashed_password($data['loggedInUser']);
+					$this->load->model("Datapengelola");
+					$hashPasswordLama = $this->Datapengelola->get_hashed_password($data['loggedInUser']);
 					if ($hashPasswordLama != null) {
 						if ((crypt($passLama, $hashPasswordLama)) === $hashPasswordLama) { // Password benar...
-							$queryResult = $this->DataPengelola->set_hashed_password($data['loggedInUser'], $passBaru1);
+							$queryResult = $this->Datapengelola->set_hashed_password($data['loggedInUser'], $passBaru1);
 							if ($queryResult == null) {
 								$data['submitInfos'][] = "<span class=\"fa fa-check\"></span> Kata sandi berhasil diperbaharui.";
 								$data['hideForm'] = true;
@@ -99,12 +99,12 @@ class ControlAutentikasi extends CI_Controller {
 	
 	function reset_password() {
 		// Genereate link reset password
-		$this->load->model('DataPengelola');
-		$this->load->model('RequestResetPassword');
+		$this->load->model('Datapengelola');
+		$this->load->model('Requestresetpassword');
 		
-		$dataPengelola = $this->DataPengelola->get_data_pengelola("administrator");
+		$dataPengelola = $this->Datapengelola->get_data_pengelola("administrator");
 		$tujuanEmail = $dataPengelola->email;
-		$kontenEmail = $this->RequestResetPassword->sendRequestKey($tujuanEmail);
+		$kontenEmail = $this->Requestresetpassword->sendRequestKey($tujuanEmail);
 		
 		// Kirim email
 		$this->load->library('email');
@@ -142,8 +142,8 @@ class ControlAutentikasi extends CI_Controller {
 		$data['pageTitle'] = "Reset Password";
 		$data['simplePage'] = true;
 		if ($requestKey != null) {
-			$this->load->model("RequestResetPassword");
-			$dataRequest = $this->RequestResetPassword->get_request_key($requestKey);
+			$this->load->model("Requestresetpassword");
+			$dataRequest = $this->Requestresetpassword->get_request_key($requestKey);
 			if ($dataRequest != null) {
 				if (($dataRequest->expiredRequest >= time()) && ($dataRequest->statusRequest == 1)) {
 					if ($this->input->post('sipedang_submit')) {
@@ -155,11 +155,11 @@ class ControlAutentikasi extends CI_Controller {
 						if ($hashPassBaru != md5($passBaru2)) {
 							$data['submitErrors'][] = "Password baru dan konfirmasi tidak sama.";
 						} else {
-							$this->load->model("DataPengelola");
+							$this->load->model("Datapengelola");
 							
-							$queryResult = $this->DataPengelola->set_hashed_password("administrator", $passBaru1);
+							$queryResult = $this->Datapengelola->set_hashed_password("administrator", $passBaru1);
 							if ($queryResult == null) {
-								$this->RequestResetPassword->deactivate_key($requestKey);
+								$this->Requestresetpassword->deactivate_key($requestKey);
 								$data['submitInfos'][] = "<span class=\"fa fa-check\"></span> Kata sandi berhasil direset.";
 								$data['hideForm'] = true;
 							} else {

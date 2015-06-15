@@ -7,7 +7,7 @@
  */
 // Changelog:
 //  (30/05/2015): penambahan $dataKegiatan dan $idKegiatan
-class DataReservasi extends CI_Model {
+class Datareservasi extends CI_Model {
 	
 	const STAT_PENDING	= 0;
 	const STAT_ACCEPTED	= 1;
@@ -273,5 +273,4 @@ class DataReservasi extends CI_Model {
 		$result = $this->db->count_all_results();
 		return $result;
 	}
-	
 }

@@ -5,7 +5,7 @@
  * @author Saptanto Sindu
  *
  */
-class DataPengelola extends CI_Model{
+class Datapengelola extends CI_Model{
 	
 	private $username, $password;
 	

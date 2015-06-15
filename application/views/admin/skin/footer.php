@@ -5,13 +5,14 @@
             <!-- /.container-fluid -->
         </div>
         <!-- /#page-wrapper -->
-
-    </div>
-	<div class="footer" style="background-color:black; height:100%;">
-        <p style="text-align:center; padding-top:10px; color:white;"><b>Copyright@SIPEDANG</b></p>
     </div>
     <!-- /#wrapper -->
+    
+    <div class="footer" style="background-color:black; padding: 10px; font-size:0.8em;color:#fff;text-align:center;">
+        Copyright &copy; SIPEDANG
+    </div>
 <?php } //=============== END IF ======================== ?>
+	
 	<div id="sipedang_loadingbox">
 		<img src="<?php echo base_url("/assets/images/loader.gif"); ?>" alt="Loading..." /> Loading....
 	</div>

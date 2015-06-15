@@ -1,6 +1,6 @@
 <?php
 
-class RequestResetPassword extends CI_Model {
+class Requestresetpassword extends CI_Model {
 	
 	private $idRequest, $dataPengelola, $requestKey, $tanggalRequest, $expiredRequest, $statusRequest;
 	
