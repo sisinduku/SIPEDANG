@@ -115,7 +115,7 @@
 						<input type="text" name="kode_reservasi"/>
 					</div>
 				</div>
-			</div>
+			</div><!-- Hello! -->
 		</div> <!-- End row form -->
 	</form>
 </div>
