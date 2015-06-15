@@ -47,6 +47,11 @@ body {
 	display:none;
 }
 
+.upload_surat
+{
+	display:none;
+}
+
 /* ------------- TAMU ----------------- */
 .stepsudah {
 	text-decoration: none;

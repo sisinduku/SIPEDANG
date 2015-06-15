@@ -160,12 +160,54 @@
 				</div> <!-- End row form -->
 			</div> <!-- End col-12 -->
 		</div>
+		
+		<div class="row upload_surat" id="sipedang_ctr_formuploadsurat">
+			<div class="col-sm-12">
+				<div class="row">
+					<form action="" method="post">
+						<div class="row panel panel-default" style="margin: 10px 10px 0px 10px;">
+							<div class="panel-heading">
+								<h3 class="panel-title"><span class="glyphicon glyphicon-upload"></span> Upload Surat Bukti Reservasi</h3>
+							</div>
+							<div class="panel-body">
+								<div class="col-md-6 form-horizontal">
+									<div class="form-group">
+										<label class="col-sm-4 control-label" style="text-align:left;" for="sipedang_namakegiatan">Kode Reservasi </label>
+										<div class="col-sm-6">
+											<input type="text" required name="sipedang_kode_reservasi" class="form-control"
+												id="sipedang_kode_reservasi" placeholder="Masukan Kode Reservasi"
+												/>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-6 form-horizontal">
+									<div class="form-group">
+										<label class="col-sm-6 control-label" for="sipedang_namakegiatan">Upload Surat Bukti Reservasi</label>
+										<div class="col-sm-6" style="padding-top: 5px;">
+											<input type="file" required name="sipedang_upload_surat"
+												id="sipedang_upload_surat"/>
+										</div>
+									</div>
+								</div>
+								
+							</div>
+							<div class="row" style="margin:auto;">
+								<button style="width: 200px; margin: auto;" type="submit" name="sipedang_btnsubmit_uploadSurat" class="btn btn-primary btn-md btn-block">Submit</button>
+							</div>
+						</div>
+						
+					</form>
+				</div>
+			</div>
+		</div>
+		
 		<div class="row" style="background-color:#F5F5F5;border-bottom: solid 1px #CCCCCC;">
 			<div class="col-sm-8">
 				
 			</div>
 			<div class="col-sm-4">
 				<button onclick="return toggle_form();" type="button" class="btn btn-info" style="margin: 5px; background-color: #686868; border: none;"><b>Formulir Reservasi</b>  <span class="glyphicon glyphicon-menu-down"></span></button>
+				<button onclick="return toggle_form_upload_surat();" type="button" class="btn btn-info" style="margin: 5px; background-color: #686868; border: none;"><i class="glyphicon glyphicon-upload" style="margin-right:5px;"></i><b>Unggah Surat</b></button>
 			</div>
 		</div>
 <?php } //================ END IF ============================ ?>
@@ -175,3 +217,10 @@
 		  <li class="active">Data</li>
 		</ol>
 		<div class="row" id="sipedang_mainbody">
+	<script>
+		function toggle_form_upload_surat()
+		{
+			$("#sipedang_ctr_formuploadsurat").slideToggle(500, 'easeInOutQuint');
+				return false;
+		}
+	</script>

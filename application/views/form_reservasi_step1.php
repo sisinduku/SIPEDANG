@@ -109,26 +109,32 @@
 					</div>
 				</div>
 			</div>
-		</div>
-		<!-- End row form -->
+			<div class="panel-body">
+				<div class="col-md-6 form-horizontal">
+					<div class="form-group">
+						<input type="text" name="kode_reservasi"/>
+					</div>
+				</div>
+			</div>
+		</div> <!-- End row form -->
 	</form>
 </div>
 <script>
-function initPage() {
-	$('#sipedang_waktupelaksanaan_step1').daterangepicker({
-		startDate: '<?php if (isset($sipedang_tglmulai)) echo $sipedang_tglmulai; ?>',
-		endDate: '<?php if (isset($sipedang_tglselesai)) echo $sipedang_tglselesai; ?>',
-		format: 'YYYY-MM-DD HH:mm',
-		timePicker: true,
-		timePicker12Hour: false,
-		dateLimit: { days: 2 },
-		opens: 'left',
-		drops: 'down',
-		timePickerIncrement: 10,
-	    minDate: '<?php echo date("Y/m/d"); ?>',
-	},function(start, end, label) {
-        $('#sipedang_tglmulai_step1').val(start.format('YYYY-MM-DD HH:mm'));
-        $('#sipedang_tglselesai_step1').val(end.format('YYYY-MM-DD HH:mm'));
-    });
-}
+	function initPage() {
+		$('#sipedang_waktupelaksanaan_step1').daterangepicker({
+			startDate: '<?php if (isset($sipedang_tglmulai)) echo $sipedang_tglmulai; ?>',
+			endDate: '<?php if (isset($sipedang_tglselesai)) echo $sipedang_tglselesai; ?>',
+			format: 'YYYY-MM-DD HH:mm',
+			timePicker: true,
+			timePicker12Hour: false,
+			dateLimit: { days: 2 },
+			opens: 'left',
+			drops: 'down',
+			timePickerIncrement: 10,
+			minDate: '<?php echo date("Y/m/d"); ?>',
+		},function(start, end, label) {
+			$('#sipedang_tglmulai_step1').val(start.format('YYYY-MM-DD HH:mm'));
+			$('#sipedang_tglselesai_step1').val(end.format('YYYY-MM-DD HH:mm'));
+		});
+	}
 </script>
