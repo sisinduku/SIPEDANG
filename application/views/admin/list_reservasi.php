@@ -6,7 +6,7 @@
 						<?php
 							if ($tampil_tombol_cetak==1)
 							{
-								echo '<a class="btn btn-primary" href="'.site_url("/pengelola/ControlReservasi/list_reservasi/".$listTag."?type=pdf").'"><i class="glyphicon glyphicon-print"></i> Cetak Arsip</a>';
+								echo '<a class="btn btn-primary" href="'.site_url("/pengelola/reservasi/list_reservasi/".$listTag."?type=pdf").'"><i class="glyphicon glyphicon-print"></i> Cetak Arsip</a>';
 							}
 						?>
 						
@@ -28,7 +28,7 @@
 	$nowTimeStamp = strtotime("now");
 	foreach ($listReservasi as $itemReservasi) {
 		$selisihHari = ceil((strtotime($itemReservasi->waktuMulaiPinjam) - $nowTimeStamp)/60/60/24);
-		$actionList = "<a href=\"".site_url("/pengelola/ControlReservasi/detil_reservasi/".
+		$actionList = "<a href=\"".site_url("/pengelola/reservasi/detil_reservasi/".
 				$itemReservasi->idReservasi)."\"><span class=\"fa fa-search\"></span> Detil</a>\n";
 		if ($itemReservasi->statusReservasi == 0) {
 			$actionList .= "<a href=\"#\" class=\"btn btn-success btn-xs\" onclick=\"return approve_reservasi(".
@@ -76,7 +76,7 @@
 		if (!userResp) return false;
 
 		$("#sipedang_loadingbox").show();
-		$("body").append('<form action="<?php echo site_url('/pengelola/ControlReservasi/approve_reservasi'); ?>" method="POST" id="sipedang_acceptor">');
+		$("body").append('<form action="<?php echo site_url('/pengelola/reservasi/approve_reservasi'); ?>" method="POST" id="sipedang_acceptor">');
 		$("#sipedang_acceptor").append('<input type="hidden" name="sipedang_idreservasi" value="'+idReservasi+'" />');
 		$("#sipedang_acceptor").append('<input type="hidden" name="sipedang_submit" value="submit-"/>');
 		$("#sipedang_acceptor").submit();

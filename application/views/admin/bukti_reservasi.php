@@ -7,7 +7,7 @@
 		<div class="col-lg-12">
 			<div>
 				<a href="<?php
-				echo site_url("/pengelola/ControlReservasi/bukti_reservasi/".
+				echo site_url("/pengelola/reservasi/bukti_reservasi/".
 						$dataReservasi->idReservasi."?type=pdf"); ?>" class="btn btn-danger"
 						target="_blank">
 					<span class="glyphicon glyphicon-print"></span> Versi PDF</a>

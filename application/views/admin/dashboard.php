@@ -23,7 +23,7 @@
 						</div>
 					</div>
 				</div>
-				<a href="<?php echo site_url("/pengelola/ControlReservasi/list_reservasi/pending"); ?>">
+				<a href="<?php echo site_url("/pengelola/reservasi/list_reservasi/pending"); ?>">
 					<div class="panel-footer">
 						<span class="pull-left">Lihat Detil</span> <span
 							class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -46,7 +46,7 @@
 						</div>
 					</div>
 				</div>
-				<a href="<?php echo site_url("/pengelola/ControlReservasi/list_reservasi/approved"); ?>">
+				<a href="<?php echo site_url("/pengelola/reservasi/list_reservasi/approved"); ?>">
 					<div class="panel-footer">
 						<span class="pull-left">Lihat Detil</span> <span
 							class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -69,7 +69,7 @@
 						</div>
 					</div>
 				</div>
-				<a href="<?php echo site_url("/pengelola/ControlReservasi/list_reservasi/approved"); ?>">
+				<a href="<?php echo site_url("/pengelola/reservasi/list_reservasi/approved"); ?>">
 					<div class="panel-footer">
 						<span class="pull-left">Lihat Detil</span> <span
 							class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -148,7 +148,7 @@
 $nowTimeStamp = strtotime ( "now" );
 foreach ( $listReservasi as $itemReservasi ) {
 	$selisihHari = floor ( (strtotime ( $itemReservasi->waktuMulaiPinjam ) - $nowTimeStamp) / 60 / 60 / 24 );
-	$actionList = "<a href=\"" . site_url ( "/pengelola/ControlReservasi/detil_reservasi/" . $itemReservasi->idReservasi ) . "\"><span class=\"fa fa-search\"></span> Detil</a>\n";
+	$actionList = "<a href=\"" . site_url ( "/pengelola/reservasi/detil_reservasi/" . $itemReservasi->idReservasi ) . "\"><span class=\"fa fa-search\"></span> Detil</a>\n";
 	if ($itemReservasi->statusReservasi == 0) {
 		$actionList .= "<a href=\"#\" class=\"btn btn-success btn-xs\"><span class=\"fa fa-check\"></span> Approve</a>\n";
 	}
@@ -215,7 +215,7 @@ foreach ( $listReservasi as $itemReservasi ) {
 			},
 			eventLimit: true, // allow "more" link when too many events
 			events: {
-				url: '<?php echo site_url("/pengelola/ControlReservasi/ajax_get_listreservasi_admin"); ?>',
+				url: '<?php echo site_url("/pengelola/reservasi/ajax_get_listreservasi_admin"); ?>',
 				error: function() {
 					//$('#script-warning').show();
 					alert("Terjadi kesalahan.");

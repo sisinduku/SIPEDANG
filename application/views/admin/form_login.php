@@ -29,7 +29,7 @@
                                 </div>
                                 <!-- Change this to a button or input when using this as a form -->
 								<div>
-									<a href="<?php echo site_url("/ControlAutentikasi/reset_password"); ?>">Lupa Password?</a>
+									<a href="<?php echo site_url("/autentikasi/reset_password"); ?>">Lupa Password?</a>
 								</div>
 								<div>
                                 	<a href="<?php echo site_url("/"); ?>" class="btn btn-default">

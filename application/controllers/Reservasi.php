@@ -2,10 +2,10 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * Objek ControlReservasi
+ * Objek Reservasi
  * @author M Nur Hardyanto
  */
-class ControlReservasi extends CI_Controller {
+class Reservasi extends CI_Controller {
 	private $secretKeyCaptcha = '6Lc4ogcTAAAAAJtYinvnbh-Y1CuhMlAKsIJFkNMn';
 	public static $listKategori = array(
 			1 => "Seminar PKL",
@@ -109,7 +109,7 @@ class ControlReservasi extends CI_Controller {
 						);
 						if (count($listReservasiKonflik) > 0) {
 							$data['submitErrors'][] = "Maaf, range tanggal yang Anda masukkan bertabrakan dengan ".
-								"reservasi berikut:<br><a href=\"".site_url("/ControlReservasi/detil_kegiatan/".$listReservasiKonflik[0]->idReservasi)."\">".htmlspecialchars($listReservasiKonflik[0]->kegiatan)."</a>".
+								"reservasi berikut:<br><a href=\"".site_url("/Reservasi/detil_kegiatan/".$listReservasiKonflik[0]->idReservasi)."\">".htmlspecialchars($listReservasiKonflik[0]->kegiatan)."</a>".
 								"<br>Silakan pilih tanggal atau jam lain." ;
 						}
 					}
@@ -142,7 +142,7 @@ class ControlReservasi extends CI_Controller {
 				$this->nativesession->set('spd_rsv_data',$dataReservasi);
 				
 				// Kirim e-mail, bila perlu...
-				$this->output->set_header("Location: ".site_url("/ControlReservasi/form_reservasi_step_2"));
+				$this->output->set_header("Location: ".site_url("/Reservasi/form_reservasi_step_2"));
 				return;
 			} else {
 				
@@ -164,6 +164,9 @@ class ControlReservasi extends CI_Controller {
 				
 				$data['sipedang_daterange']		= date("Y-m-d H:i", strtotime($data['sipedang_tglmulai']))." s/d ";
 				$data['sipedang_daterange']	   .= date("Y-m-d H:i", strtotime($data['sipedang_tglselesai']));
+			} else {
+				$data['sipedang_tglmulai']		= date("Y-m-d 08:00:00");
+				$data['sipedang_tglselesai']	= date("Y-m-d 10:00:00");
 			}
 		}
 		$data['listKategori']		= $this::$listKategori;
@@ -174,7 +177,7 @@ class ControlReservasi extends CI_Controller {
 	public function form_reservasi_step_2() {
 		// Pastikan data reservasi pada tahap 1 sudah ada/tersimpan
 		if ($this->nativesession->get('spd_rsv_status')!=true) {
-			$this->output->set_header("Location: ".site_url("/ControlReservasi/form_reservasi"));
+			$this->output->set_header("Location: ".site_url("/Reservasi/form_reservasi"));
 			return;
 		}
 		$data['pageTitle'] = "Deskripsi Kegiatan";
@@ -224,7 +227,7 @@ class ControlReservasi extends CI_Controller {
 				
 				$this->load->model("Datareservasi");
 				$this->Datareservasi->set_kegiatan($dataReservasi);
-				$this->output->set_header("Location: ".site_url("/ControlReservasi/form_reservasi_step_3"));
+				$this->output->set_header("Location: ".site_url("/Reservasi/form_reservasi_step_3"));
 				return;
 			} else {
 		
@@ -237,7 +240,7 @@ class ControlReservasi extends CI_Controller {
 	public function form_reservasi_step_3() {
 		// Pastikan data reservasi pada tahap 2 sudah ada/tersimpan
 		if ($this->nativesession->get('spd_rsv_status')!=true) {
-			$this->output->set_header("Location: ".site_url("/ControlReservasi/form_reservasi"));
+			$this->output->set_header("Location: ".site_url("/Reservasi/form_reservasi"));
 			return;
 		}
 		

@@ -23,7 +23,7 @@
                         <li><a href="#"><i class="fa fa-gear fa-fw"></i> Ganti Kata sandi</a>
                         </li>
                         <li class="divider"></li>
-                        <li><a href="<?php echo site_url("/ControlAutentikasi/logout"); ?>">
+                        <li><a href="<?php echo site_url("/autentikasi/logout"); ?>">
                         	<i class="fa fa-sign-out fa-fw"></i> Keluar</a>
                         </li>
                     </ul>
@@ -37,33 +37,33 @@
                 <div class="sidebar-nav navbar-collapse">
                     <ul class="nav" id="side-menu">
                         <li>
-                            <a href="<?php echo site_url('pengelola/ControlReservasi/dasbor')?>">
+                            <a href="<?php echo site_url('pengelola/reservasi/dasbor')?>">
                             	<span class="fa fa-home"></span> Dashboard</a>
                         </li>
                         <li>
                             <a href="#"><span class="fa fa-list"></span> Overview Reservasi</a>
                             <ul class="nav nav-second-level">
                             	<li>
-                                    <a href="<?php echo site_url('pengelola/ControlReservasi/list_reservasi/pending')?>">
+                                    <a href="<?php echo site_url('pengelola/reservasi/list_reservasi/pending')?>">
                                     	<span class="fa fa-warning"></span> Pending</a>
                                 </li>
                                 <li>
-                                    <a href="<?php echo site_url('pengelola/ControlReservasi/list_reservasi/approved')?>">
+                                    <a href="<?php echo site_url('pengelola/reservasi/list_reservasi/approved')?>">
                                     	<span class="fa fa-check"></span> Approved</a>
                                 </li>
                                 <li>
-                                    <a href="<?php echo site_url('pengelola/ControlReservasi/list_reservasi/archive')?>">
+                                    <a href="<?php echo site_url('pengelola/reservasi/list_reservasi/archive')?>">
                                     	<span class="fa fa-folder"></span> Archived</a>
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>
                         <li>
-                            <a href="<?php echo site_url('/ControlAutentikasi/ubah_password')?>">
+                            <a href="<?php echo site_url('/autentikasi/ubah_password')?>">
                             	<span class="fa fa-key"></span> Ubah Password</a>
                         </li>
                         <li>
-                            <a href="<?php echo site_url('/ControlAutentikasi/logout')?>">
+                            <a href="<?php echo site_url('/autentikasi/logout')?>">
                             	<span class="fa fa-power-off"></span> Log out</a>
                         </li>
                         <li style="text-align: center; color: #BFBFBF; padding-top: 10px;font-size:0.9em;">

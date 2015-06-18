@@ -22,7 +22,7 @@
 	}
 ?>
 
-	<form action="<?php echo site_url("/ControlReservasi/form_reservasi"); ?>" method="post">
+	<form action="<?php echo site_url("/reservasi/form_reservasi"); ?>" method="post">
 		<div class="row panel panel-default" style="margin: 10px 10px 0px 10px;">
 			<div class="panel-heading">
 				<h3 class="panel-title">Formulir Reservasi</h3>
@@ -34,7 +34,8 @@
 						<div class="col-sm-9">
 							<input type="text" required name="sipedang_namakegiatan" class="form-control"
 								id="sipedang_namakegiatan" placeholder="Masukan Nama Kegiatan"
-								value="<?php if (isset($sipedang_namakegiatan)) echo htmlspecialchars($sipedang_namakegiatan)?>"/>
+								value="<?php if (isset($sipedang_namakegiatan)) echo htmlspecialchars($sipedang_namakegiatan)?>"
+								maxlength="128"/>
 						</div>
 					</div>
 					<div class="form-group">
@@ -42,7 +43,8 @@
 						<div class="col-sm-9">
 							<input type="text" required name="sipedang_pemesan" class="form-control"
 							id="sipedang_pemesan" placeholder="Masukan Nama Pemesan"
-							value="<?php if (isset($sipedang_pemesan)) echo htmlspecialchars($sipedang_pemesan)?>"/>
+							value="<?php if (isset($sipedang_pemesan)) echo htmlspecialchars($sipedang_pemesan)?>"
+							maxlength="64"/>
 						</div>
 					</div>
 					<div class="form-group">
@@ -50,7 +52,8 @@
 						<div class="col-sm-9">
 							<input type="text" required name="sipedang_penyelenggara" class="form-control"
 							id="sipedang_penyelenggara" placeholder="Masukan Penyelenggara"
-							value="<?php if (isset($sipedang_penyelenggara)) echo htmlspecialchars($sipedang_penyelenggara)?>"/>
+							value="<?php if (isset($sipedang_penyelenggara)) echo htmlspecialchars($sipedang_penyelenggara)?>"
+							maxlength="64"/>
 						</div>
 					</div>
 					<div class="form-group">
@@ -77,7 +80,7 @@
 						<div class="col-sm-9" id="sipedang_ctr_waktupelaksanaan">
 							<input type="text" required name="sipedang_waktupelaksanaan" class="form-control"
 								id="sipedang_waktupelaksanaan_step1" placeholder="Waktu Pelaksanaan"
-								value="<?php if (isset($sipedang_daterange)) echo htmlspecialchars($sipedang_daterange);?>"/>
+								value="<?php if (isset($sipedang_daterange)) echo htmlspecialchars($sipedang_daterange);?>" />
 							<input type="hidden" name="sipedang_tglmulai" id="sipedang_tglmulai_step1"
 								value="<?php if (isset($sipedang_tglmulai)) echo htmlspecialchars($sipedang_tglmulai); ?>" />
 							<input type="hidden" name="sipedang_tglselesai" id="sipedang_tglselesai_step1"
@@ -89,7 +92,8 @@
 						<div class="col-sm-9">
 							<input type="email" required name="sipedang_email" class="form-control"
 								id="sipedang_email" placeholder="Masukan E-Mail"
-								value="<?php if (isset($sipedang_email)) echo htmlspecialchars($sipedang_email); ?>"/>
+								value="<?php if (isset($sipedang_email)) echo htmlspecialchars($sipedang_email); ?>"
+								maxlength="128"/>
 						</div>
 					</div>
 					<div class="form-group">
@@ -97,7 +101,8 @@
 						<div class="col-sm-9">
 							<input type="text" required name="sipedang_kontak" class="form-control"
 							id="sipedang_kontak" placeholder="Masukan Nomor Kontak"
-							value="<?php if (isset($sipedang_kontak)) echo htmlspecialchars($sipedang_kontak); ?>"/>
+							value="<?php if (isset($sipedang_kontak)) echo htmlspecialchars($sipedang_kontak); ?>"
+							maxlength="16"/>
 						</div>
 					</div>
 					<div class="form-group">
@@ -109,21 +114,14 @@
 					</div>
 				</div>
 			</div>
-			<div class="panel-body">
-				<div class="col-md-6 form-horizontal">
-					<div class="form-group">
-						<input type="text" name="kode_reservasi"/>
-					</div>
-				</div>
-			</div><!-- Hello! -->
 		</div> <!-- End row form -->
 	</form>
 </div>
 <script>
 	function initPage() {
 		$('#sipedang_waktupelaksanaan_step1').daterangepicker({
-			startDate: '<?php if (isset($sipedang_tglmulai)) echo $sipedang_tglmulai; ?>',
-			endDate: '<?php if (isset($sipedang_tglselesai)) echo $sipedang_tglselesai; ?>',
+			<?php if (!empty($sipedang_tglmulai)) echo "startDate: '$sipedang_tglmulai',\n"; ?>
+			<?php if (!empty($sipedang_tglselesai)) echo "endDate: '$sipedang_tglselesai',\n"; ?>
 			format: 'YYYY-MM-DD HH:mm',
 			timePicker: true,
 			timePicker12Hour: false,

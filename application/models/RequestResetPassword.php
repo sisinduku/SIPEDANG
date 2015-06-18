@@ -35,7 +35,7 @@ class Requestresetpassword extends CI_Model {
 					<body>
 						<p>Kami turut bersimpati atas kehilangan password Anda.</p>
 						<p>Tetapi jangan khawatir! Anda dapat menggunakan link berikut untuk mereset password anda:</p>
-						<p>".site_url("ControlAutentikasi/do_reset_password/".$this->requestKey)."</p>
+						<p>".site_url("/autentikasi/do_reset_password/".$this->requestKey)."</p>
 						<p>Jika anda tidak menggunakan link ini dalam waktu 1 jam, maka link akan dinonaktifkan.</p>
 						<p>Thanks<br><b>SiPedang</b></p>
 					</body>

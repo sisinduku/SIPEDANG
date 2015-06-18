@@ -21,7 +21,7 @@
 			},
 			eventLimit: true, // allow "more" link when too many events
 			events: {
-				url: '<?php echo site_url("/ControlReservasi/ajax_get_listreservasi"); ?>',
+				url: '<?php echo site_url("/reservasi/ajax_get_listreservasi"); ?>',
 				error: function() {
 					//$('#script-warning').show();
 					alert("Terjadi kesalahan.");
@@ -91,7 +91,7 @@
 	    $('#sipedang_dlg_detilevent').on('shown.bs.modal',function(e){
 	    	$.ajax({
 		    	method: 'POST',
-				url: "<?php echo site_url("/ControlReservasi/ajax_detil_kegiatan"); ?>",
+				url: "<?php echo site_url("/reservasi/ajax_detil_kegiatan"); ?>",
 				data:{id: activeId},
 				type: 'html'
     		}).done(function(data) {

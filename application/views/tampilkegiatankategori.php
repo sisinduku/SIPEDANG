@@ -66,7 +66,7 @@
 	    $('#sipedang_dlg_detilevent').on('shown.bs.modal',function(e){
 	    	$.ajax({
 		    	method: 'POST',
-				url: "<?php echo site_url("/ControlReservasi/ajax_detil_kegiatan"); ?>",
+				url: "<?php echo site_url("/reservasi/ajax_detil_kegiatan"); ?>",
 				data:{id: activeId},
 				type: 'html'
     		}).done(function(data) {

@@ -26,7 +26,7 @@
 	}
 	if (!isset($hideForm)) { //================== ?>
 			<form role="form"
-				action="<?php echo site_url("/ControlAutentikasi/ubah_password"); ?>"
+				action="<?php echo site_url("/autentikasi/ubah_password"); ?>"
 				method="post">
 				<div class="form-group">
 					<label for="sipedang_sandi_lama">Password Lama</label> <input

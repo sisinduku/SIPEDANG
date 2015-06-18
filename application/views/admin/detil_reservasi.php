@@ -2,7 +2,7 @@
 <div class="col-lg-12">
 	<h2>Detil Reservasi</h2>
 	<!-- /.row -->
-	<a href="<?php echo site_url("/pengelola/ControlReservasi/list_reservasi"); ?>">
+	<a href="<?php echo site_url("/pengelola/reservasi/list_reservasi"); ?>">
 		<span class="glyphicon glyphicon-chevron-left"></span> Kembali ke list</a>
 	<div class="row">
 		<div class="col-lg-4">
@@ -27,7 +27,7 @@
 			onclick="reject_reservasi(<?php echo $dataReservasi->idReservasi; ?>);">
 		<span class="fa fa-remove"></span> Cancel</button>
 	<a href="<?php
-		echo site_url("/pengelola/ControlReservasi/bukti_reservasi/".
+		echo site_url("/pengelola/reservasi/bukti_reservasi/".
 				$dataReservasi->idReservasi);
 	?>" class="btn btn-primary">
 		<span class="fa fa-file"></span> Cetak Bukti</a>
@@ -100,7 +100,7 @@ function approve_reservasi(idReservasi) {
 	if (!userResp) return false;
 
 	$("#sipedang_loadingbox").show();
-	$("body").append('<form action="<?php echo site_url('/pengelola/ControlReservasi/approve_reservasi?ref=detil'); ?>" method="POST" id="sipedang_acceptor">');
+	$("body").append('<form action="<?php echo site_url('/pengelola/reservasi/approve_reservasi?ref=detil'); ?>" method="POST" id="sipedang_acceptor">');
 	$("#sipedang_acceptor").append('<input type="hidden" name="sipedang_idreservasi" value="'+idReservasi+'" />');
 	$("#sipedang_acceptor").append('<input type="hidden" name="sipedang_submit" value="submit-"/>');
 	$("#sipedang_acceptor").submit();
@@ -111,7 +111,7 @@ function reject_reservasi(idReservasi) {
 	if (!userResp) return false;
 
 	$("#sipedang_loadingbox").show();
-	$("body").append('<form action="<?php echo site_url('/pengelola/ControlReservasi/reject_reservasi?ref=detil'); ?>" method="POST" id="sipedang_acceptor">');
+	$("body").append('<form action="<?php echo site_url('/pengelola/reservasi/reject_reservasi?ref=detil'); ?>" method="POST" id="sipedang_acceptor">');
 	$("#sipedang_acceptor").append('<input type="hidden" name="sipedang_idreservasi" value="'+idReservasi+'" />');
 	$("#sipedang_acceptor").append('<input type="hidden" name="sipedang_submit" value="submit-"/>');
 	$("#sipedang_acceptor").submit();

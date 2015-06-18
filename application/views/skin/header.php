@@ -12,11 +12,11 @@
     <title><?php if (isset($pageTitle)) echo $pageTitle; else echo "Untitled"; ?> - SIPEDANG</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="<?php echo base_url('assets/bower_components/bootstrap/dist/css/bootstrap.min.css')?>" rel="stylesheet">
-    <link href="<?php echo base_url('assets/css/global.css')?>" rel="stylesheet">
+    <link href="<?php echo base_url('/assets/bower_components/bootstrap/dist/css/bootstrap.min.css')?>" rel="stylesheet">
+    <link href="<?php echo base_url('/assets/css/global.css')?>" rel="stylesheet">
     
     <!-- Custom styles for this template -->
-    <link href="<?php echo base_url('assets/css/flickity.css')?>" rel="stylesheet">
+    <link href="<?php echo base_url('/assets/css/flickity.css')?>" rel="stylesheet">
 	
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -53,8 +53,8 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right" style="color: #F5F5F5">
             <li <?php if ($pageMenuId == 1) echo "class=\"active\""; ?>><a href="<?php echo site_url("/"); ?>">Home</a></li>
-            <li <?php if ($pageMenuId == 2) echo "class=\"active\""; ?>><a href="<?php echo site_url("/ControlReservasi/kategori"); ?>">Kategori</a></li>
-            <li <?php if ($pageMenuId == 3) echo "class=\"active\""; ?>><a href="<?php echo site_url("/ControlReservasi/tampil_kalender"); ?>">Kalender</a></li>
+            <li <?php if ($pageMenuId == 2) echo "class=\"active\""; ?>><a href="<?php echo site_url("/reservasi/kategori"); ?>">Kategori</a></li>
+            <li <?php if ($pageMenuId == 3) echo "class=\"active\""; ?>><a href="<?php echo site_url("/reservasi/tampil_kalender"); ?>">Kalender</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
@@ -62,13 +62,13 @@
 
     <div class="container" role="main" id="sipedang_body">
 		<div class="row">
-			<img src="<?php echo base_url("/assets/images/header_home.png"); ?>" alt="SiPedang" style="width:100%;" />
+			<img src="<?php echo base_url("/assets/images/header_home.png"); ?>" class="image" alt="SiPedang" style="width:100%;" />
 		</div>
 <?php if (!isset($hideFormReservasi)) { //=============== Jika form reservasi ditampilkan ======== ?>
 		<div class="row" id="sipedang_ctr_formreservasi">
 			<div class="col-lg-12">
 				<div class="row">
-					<form action="<?php echo site_url("/ControlReservasi/form_reservasi"); ?>" method="post">
+					<form action="<?php echo site_url("/reservasi/form_reservasi"); ?>" method="post">
 						<div class="row panel panel-default" style="margin: 10px 10px 0px 10px;">
 							<div class="panel-heading">
 								<h3 class="panel-title"><span class="glyphicon glyphicon-pencil"></span> Formulir Reservasi</h3>
@@ -80,7 +80,8 @@
 										<div class="col-sm-9">
 											<input type="text" required name="sipedang_namakegiatan" class="form-control"
 												id="sipedang_namakegiatan" placeholder="Masukan Nama Kegiatan"
-												value="<?php if (isset($sipedang_namakegiatan)) echo htmlspecialchars($sipedang_namakegiatan)?>"/>
+												value="<?php if (isset($sipedang_namakegiatan)) echo htmlspecialchars($sipedang_namakegiatan)?>"
+												maxlength="128"/>
 										</div>
 									</div>
 									<div class="form-group">
@@ -88,7 +89,8 @@
 										<div class="col-sm-9">
 											<input type="text" required name="sipedang_pemesan" class="form-control"
 											id="sipedang_pemesan" placeholder="Masukan Nama Pemesan"
-											value="<?php if (isset($sipedang_pemesan)) echo htmlspecialchars($sipedang_pemesan)?>"/>
+											value="<?php if (isset($sipedang_pemesan)) echo htmlspecialchars($sipedang_pemesan)?>"
+											maxlength="64"/>
 										</div>
 									</div>
 									<div class="form-group">
@@ -96,7 +98,8 @@
 										<div class="col-sm-9">
 											<input type="text" required name="sipedang_penyelenggara" class="form-control"
 											id="sipedang_penyelenggara" placeholder="Masukan Penyelenggara"
-											value="<?php if (isset($sipedang_penyelenggara)) echo htmlspecialchars($sipedang_penyelenggara)?>"/>
+											value="<?php if (isset($sipedang_penyelenggara)) echo htmlspecialchars($sipedang_penyelenggara)?>"
+											maxlength="64"/>
 										</div>
 									</div>
 									<div class="form-group">
@@ -135,7 +138,8 @@
 										<div class="col-sm-9">
 											<input type="email" required name="sipedang_email" class="form-control"
 												id="sipedang_email" placeholder="Masukan E-Mail"
-												value="<?php if (isset($sipedang_email)) echo htmlspecialchars($sipedang_email); ?>"/>
+												value="<?php if (isset($sipedang_email)) echo htmlspecialchars($sipedang_email); ?>"
+												maxlength="128"/>
 										</div>
 									</div>
 									<div class="form-group">
@@ -143,7 +147,8 @@
 										<div class="col-sm-9">
 											<input type="text" required name="sipedang_kontak" class="form-control"
 											id="sipedang_kontak" placeholder="Masukan Nomor Kontak"
-											value="<?php if (isset($sipedang_kontak)) echo htmlspecialchars($sipedang_kontak); ?>"/>
+											value="<?php if (isset($sipedang_kontak)) echo htmlspecialchars($sipedang_kontak); ?>"
+											maxlength="16"/>
 										</div>
 									</div>
 									<div class="form-group">
@@ -160,7 +165,7 @@
 				</div> <!-- End row form -->
 			</div> <!-- End col-12 -->
 		</div>
-		
+		<!-- 
 		<div class="row upload_surat" id="sipedang_ctr_formuploadsurat">
 			<div class="col-sm-12">
 				<div class="row">
@@ -200,14 +205,15 @@
 				</div>
 			</div>
 		</div>
-		
+		 -->
 		<div class="row" style="background-color:#F5F5F5;border-bottom: solid 1px #CCCCCC;">
 			<div class="col-sm-8">
 				
 			</div>
 			<div class="col-sm-4">
 				<button onclick="return toggle_form();" type="button" class="btn btn-info" style="margin: 5px; background-color: #686868; border: none;"><b>Formulir Reservasi</b>  <span class="glyphicon glyphicon-menu-down"></span></button>
-				<button onclick="return toggle_form_upload_surat();" type="button" class="btn btn-info" style="margin: 5px; background-color: #686868; border: none;"><i class="glyphicon glyphicon-upload" style="margin-right:5px;"></i><b>Unggah Surat</b></button>
+				<!-- <button onclick="return toggle_form_upload_surat();" type="button" class="btn btn-info" style="margin: 5px; background-color: #686868; border: none;">
+					<i class="glyphicon glyphicon-upload" style="margin-right:5px;"></i><b>Unggah Surat</b></button>  -->
 			</div>
 		</div>
 <?php } //================ END IF ============================ ?>

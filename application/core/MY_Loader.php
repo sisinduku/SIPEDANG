@@ -119,7 +119,7 @@ class MY_Loader extends CI_Loader {
 		
 		if (!$ci->nativesession->get($this::SESS_ID_UID)) {
 			if ($enableRedirect) {
-				$ci->output->set_header('Location: '.site_url('/ControlAutentikasi/login?next='.urlencode($_SERVER['REQUEST_URI'])));
+				$ci->output->set_header('Location: '.site_url('/autentikasi/login?next='.urlencode($_SERVER['REQUEST_URI'])));
 			} 
 			return false;
 		}

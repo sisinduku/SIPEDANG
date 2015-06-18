@@ -2,7 +2,7 @@
 <div class="col-lg-12">
 	<div class="row">
 		<div class="col-sm-4">
-			<a href="<?php echo site_url("/ControlReservasi/form_reservasi"); ?>" class="stepsudah">
+			<a href="<?php echo site_url("/reservasi/form_reservasi"); ?>" class="stepsudah">
 				<h1>Langkah 1</h1>
 			</a>
 		</div>
@@ -23,7 +23,7 @@
 		echo "</div>\n";
 	}
 ?>
-	<form action="<?php echo site_url("/ControlReservasi/form_reservasi_step_2"); ?>" method="post"
+	<form action="<?php echo site_url("/reservasi/form_reservasi_step_2"); ?>" method="post"
 			enctype="multipart/form-data">
 		<div class="row box-body pad panel panel-default"style="margin: 0px 10px 0px 10px;">
 			<div class="panel-heading">

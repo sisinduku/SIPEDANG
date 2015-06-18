@@ -2,10 +2,10 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * Objek ControlReservasi
+ * Objek Reservasi
  * @author M Nur Hardyanto
 */
-class ControlReservasi extends CI_Controller {
+class Reservasi extends CI_Controller {
 	public static $listKategori = array(
 			1 => "Seminar PKL",
 			2 => "Seminar TA",
@@ -32,7 +32,7 @@ class ControlReservasi extends CI_Controller {
 		$data['jumlahKegiatan'] 	= $this->Datareservasi->get_jumlah_kegiatan();
 		$data['jumlahPending']		= $this->Datareservasi->get_jumlah_kegiatan(
 				Datareservasi::STAT_PENDING, date("Y-m-d H:i:s"));
-		$data['jumlahUpComing']		=$this->Datareservasi->get_jumlah_kegiatan(
+		$data['jumlahUpComing']		= $this->Datareservasi->get_jumlah_kegiatan(
 				Datareservasi::STAT_ACCEPTED, date("Y-m-d H:i:s"));
 		$data['listReservasi'] =
 			$this->Datareservasi->get_kegiatan(Datareservasi::STAT_ACCEPTED,-1,date("Y-m-d H:i:s"));
@@ -93,11 +93,11 @@ class ControlReservasi extends CI_Controller {
 				if (empty($data['dataReservasi']->gambar))
 					$data['dataReservasi']->gambar = "/assets/images/cover_small.png";
 			} else {
-				$this->output->set_header("Location: ".site_url("/pengelola/ControlReservasi/list_reservasi"));
+				$this->output->set_header("Location: ".site_url("/pengelola/Reservasi/list_reservasi"));
 				return;
 			}
 		} else {
-			$this->output->set_header("Location: ".site_url("/pengelola/ControlReservasi/list_reservasi"));
+			$this->output->set_header("Location: ".site_url("/pengelola/Reservasi/list_reservasi"));
 			return;
 		}
 		$data['listKategori'] = $this::$listKategori;
@@ -122,11 +122,11 @@ class ControlReservasi extends CI_Controller {
 					$this->load->template_admin("admin/bukti_reservasi", $data);
 				}
 			} else {
-				$this->output->set_header("Location: ".site_url("/pengelola/ControlReservasi/list_reservasi"));
+				$this->output->set_header("Location: ".site_url("/pengelola/Reservasi/list_reservasi"));
 				return;
 			}
 		} else {
-			$this->output->set_header("Location: ".site_url("/pengelola/ControlReservasi/list_reservasi"));
+			$this->output->set_header("Location: ".site_url("/pengelola/Reservasi/list_reservasi"));
 			return;
 		}
 		
@@ -300,7 +300,7 @@ class ControlReservasi extends CI_Controller {
 			$this->output->append_output('Access denied');
 			return;
 		}
-		$backRef = "/pengelola/ControlReservasi/list_reservasi";
+		$backRef = "/pengelola/Reservasi/list_reservasi";
 		if ($this->input->post("sipedang_submit")) {
 			$idReservasi = $this->input->post("sipedang_idreservasi");
 			$this->load->model("Datareservasi");
@@ -310,7 +310,7 @@ class ControlReservasi extends CI_Controller {
 				return;
 			}
 			if ($this->input->get("ref") == "detil") {
-				$backRef = "/pengelola/ControlReservasi/detil_reservasi/".$idReservasi;
+				$backRef = "/pengelola/Reservasi/detil_reservasi/".$idReservasi;
 			}
 		}
 		$this->output->set_header("Location: ".site_url($backRef));
@@ -321,7 +321,7 @@ class ControlReservasi extends CI_Controller {
 			$this->output->append_output('Access denied');
 			return;
 		}
-		$backRef = "/pengelola/ControlReservasi/list_reservasi";
+		$backRef = "/pengelola/Reservasi/list_reservasi";
 		if ($this->input->post("sipedang_submit")) {
 			$idReservasi = $this->input->post("sipedang_idreservasi");
 			$this->load->model("Datareservasi");
@@ -331,7 +331,7 @@ class ControlReservasi extends CI_Controller {
 				return;
 			}
 			if ($this->input->get("ref") == "detil") {
-				$backRef = "/pengelola/ControlReservasi/detil_reservasi/".$idReservasi;
+				$backRef = "/pengelola/Reservasi/detil_reservasi/".$idReservasi;
 			}
 		}
 		$this->output->set_header("Location: ".site_url($backRef));
@@ -378,7 +378,7 @@ class ControlReservasi extends CI_Controller {
 					'id'		=> $itemReservasi->idReservasi,
 					'title'		=> $itemReservasi->kegiatan,
 					'allDay'	=> false,
-					'url'		=> site_url("/pengelola/ControlReservasi/detil_reservasi/".$itemReservasi->idReservasi),
+					'url'		=> site_url("/pengelola/Reservasi/detil_reservasi/".$itemReservasi->idReservasi),
 					'start'		=> $itemReservasi->waktuMulaiPinjam,
 					'end'		=> $itemReservasi->waktuSelesaiPinjam,
 					'backgroundColor' => $eventColor

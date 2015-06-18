@@ -2,10 +2,10 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * Objek ControlAutentikasi
+ * Objek Autentikasi
  * @author M Nur Hardyanto
 */
-class ControlAutentikasi extends CI_Controller {
+class Autentikasi extends CI_Controller {
 	public function index() {
 		if ($this->load->check_session(false)) {
 			$this->output->set_header("Location: ".site_url("/pengelola"));
@@ -50,7 +50,7 @@ class ControlAutentikasi extends CI_Controller {
 		$this->nativesession->delete(MY_Loader::SESS_ID_UID);
 		$this->nativesession->delete(MY_Loader::SESS_ID_UEMAIL);
 		
-		$this->output->set_header("Location: ".site_url("/ControlAutentikasi/login"));
+		$this->output->set_header("Location: ".site_url("/autentikasi/login"));
 	}
 	
 	public function ubah_password() {
@@ -179,7 +179,7 @@ class ControlAutentikasi extends CI_Controller {
 			$this->output->set_header("Location: ".site_url("/pengelola"));
 			return;
 		}
-		$data['formAction'] = "/ControlAutentikasi/do_reset_password/".$requestKey;
+		$data['formAction'] = "/autentikasi/do_reset_password/".$requestKey;
 		$this->load->template_admin("admin/form_reset_password", $data);
 	}
 }
