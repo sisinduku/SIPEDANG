@@ -60,7 +60,7 @@
 									<td>: <?php echo htmlspecialchars($dataReservasi->penyelenggara);?></td>
 								</tr>
 								<tr>
-									<td>Tempat dan Waktu Pelaksanaan</td>
+									<td>Waktu Pelaksanaan</td>
 									<td>: <?php 
 										echo format_range_tanggal_mysql(
 												$dataReservasi->waktuMulaiPinjam,

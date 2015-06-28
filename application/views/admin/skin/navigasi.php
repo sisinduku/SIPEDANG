@@ -41,11 +41,19 @@
                             	<span class="fa fa-home"></span> Dashboard</a>
                         </li>
                         <li>
-                            <a href="#"><span class="fa fa-list"></span> Overview Reservasi</a>
+                            <a href="#"><span class="fa fa-list"></span> Overview Reservasi <span class="badge"><?php 
+                                    	if ($jumlahPending > 0) echo $jumlahPending;
+                                    	?></span></a>
                             <ul class="nav nav-second-level">
                             	<li>
                                     <a href="<?php echo site_url('pengelola/reservasi/list_reservasi/pending')?>">
-                                    	<span class="fa fa-warning"></span> Pending</a>
+                                    	<span class="fa fa-warning"></span> Pending <span class="badge"><?php 
+                                    	if (isset($jumlahPending)) echo $jumlahPending;
+                                    	?></span></a>
+                                </li>
+                                <li>
+                                    <a href="<?php echo site_url('pengelola/reservasi/list_reservasi/upcoming')?>">
+                                    	<span class="fa fa-check"></span> Upcoming</a>
                                 </li>
                                 <li>
                                     <a href="<?php echo site_url('pengelola/reservasi/list_reservasi/approved')?>">

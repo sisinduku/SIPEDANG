@@ -56,6 +56,7 @@ class Autentikasi extends CI_Controller {
 	public function ubah_password() {
 		if (!$this->load->check_session()) return;
 		$data['loggedInUser'] = $this->nativesession->get(MY_Loader::SESS_ID_UID);
+		$data['jumlahPending']	= $this->nativesession->get(MY_Loader::SESS_ID_PENDING);
 		
 		$data['pageTitle'] = "Ubah kata sandi";
 		$data['submitErrors'] = array();

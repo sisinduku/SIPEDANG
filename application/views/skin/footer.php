@@ -66,6 +66,11 @@
 		$("#sipedang_ctr_formreservasi").slideToggle(500, 'easeInOutQuint');
 		return false;
 	}
+	function toggle_form_upload_surat()
+	{
+		$("#sipedang_ctr_formuploadsurat").slideToggle(500, 'easeInOutQuint');
+		return false;
+	}
   	</script>
   </body >
 </html >

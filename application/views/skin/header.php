@@ -122,7 +122,7 @@
 								
 								<div class="col-md-6 form-horizontal" >
 									<div class="form-group">
-										<label class="col-sm-3 control-label" for="sipedang_waktupelaksanaan_step1">Pelaksanaan</label>
+										<label class="col-sm-3 control-label" for="sipedang_waktupelaksanaan">Pelaksanaan</label>
 										<div class="col-sm-9" id="sipedang_ctr_waktupelaksanaan">
 											<input type="text" required name="sipedang_waktupelaksanaan" class="form-control"
 												id="sipedang_waktupelaksanaan" placeholder="Waktu Pelaksanaan"
@@ -148,7 +148,7 @@
 											<input type="text" required name="sipedang_kontak" class="form-control"
 											id="sipedang_kontak" placeholder="Masukan Nomor Kontak"
 											value="<?php if (isset($sipedang_kontak)) echo htmlspecialchars($sipedang_kontak); ?>"
-											maxlength="16"/>
+											maxlength="16" pattern="[0-9+]+"/>
 										</div>
 									</div>
 									<div class="form-group">
@@ -219,14 +219,8 @@
 <?php } //================ END IF ============================ ?>
 		<ol class="breadcrumb" style="margin-top: 15px;">
 		  <li><a href="<?php echo base_url("/"); ?>"><span class="glyphicon glyphicon-home"></span> Beranda</a></li>
-		  <li><a href="#">Reservasi</a></li>
-		  <li class="active">Data</li>
+		  <!-- <li><a href="#">Reservasi</a></li>
+		  <li class="active">Data</li>  -->
 		</ol>
 		<div class="row" id="sipedang_mainbody">
-	<script>
-		function toggle_form_upload_surat()
-		{
-			$("#sipedang_ctr_formuploadsurat").slideToggle(500, 'easeInOutQuint');
-				return false;
-		}
-	</script>
+		

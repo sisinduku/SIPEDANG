@@ -8,6 +8,7 @@
 class MY_Loader extends CI_Loader {
 	const SESS_ID_UID		= "sipedang_sess_uid";
 	const SESS_ID_UEMAIL	= "sipedang_sess_uemail";
+	const SESS_ID_PENDING	= "sipedang_sess_pending";
 	
 	public static $htmlStatus = array(
 			0 => "<span class=\"label label-warning\">Pending</span>",

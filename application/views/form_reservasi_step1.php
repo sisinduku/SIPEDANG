@@ -102,7 +102,7 @@
 							<input type="text" required name="sipedang_kontak" class="form-control"
 							id="sipedang_kontak" placeholder="Masukan Nomor Kontak"
 							value="<?php if (isset($sipedang_kontak)) echo htmlspecialchars($sipedang_kontak); ?>"
-							maxlength="16"/>
+							maxlength="16" pattern="[0-9+]+"/>
 						</div>
 					</div>
 					<div class="form-group">
@@ -130,6 +130,7 @@
 			drops: 'down',
 			timePickerIncrement: 10,
 			minDate: '<?php echo date("Y/m/d"); ?>',
+			maxDate: '<?php echo date("Y/m/d", strtotime("+1 month")); ?>'
 		},function(start, end, label) {
 			$('#sipedang_tglmulai_step1').val(start.format('YYYY-MM-DD HH:mm'));
 			$('#sipedang_tglselesai_step1').val(end.format('YYYY-MM-DD HH:mm'));

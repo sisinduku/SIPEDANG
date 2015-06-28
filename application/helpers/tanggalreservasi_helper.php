@@ -16,7 +16,7 @@ function format_tanggal_formal($unixTime, $tampilNamaHari = true, $tampilWaktu =
 
 	$outputFormat .= date("j ", $unixTime). $namaBulan[$idBulan]. date(" Y", $unixTime);
 
-	if ($tampilWaktu) $outputFormat .= date(", H:i:s", $unixTime);
+	if ($tampilWaktu) $outputFormat .= date(", H:i", $unixTime);
 	return $outputFormat;
 }
 

@@ -186,6 +186,10 @@ class Reservasi extends CI_Controller {
 		if ($this->input->post('sipedang_submit')) {
 			//==== Assign ============================
 			$data['sipedang_deskripsi']		= trim($this->input->post('sipedang_deskripsi'));
+			// Hilangkan tag script...
+			$data['sipedang_deskripsi']		= preg_replace('/<script\b[^>]*>(.*?)<\/script>/is',
+					"", $data['sipedang_deskripsi']);
+			
 			$data['sipedang_filegambar']	= '';
 			
 			//==== Upload gambar kegiatan ============
@@ -206,7 +210,7 @@ class Reservasi extends CI_Controller {
 				$config['upload_path']		= FCPATH.$uploadPath;
 				$config['allowed_types']	= 'gif|jpg|jpeg|png';
 				$config['file_name']		= $uploadFileName;
-				$config['max_size']			= '256';
+				$config['max_size']			= '2048';
 				$config['overwrite']		= TRUE;
 			
 				$this->upload->initialize($config);
@@ -266,6 +270,8 @@ class Reservasi extends CI_Controller {
 		$idKegiatan = $this->input->post('id');
 		
 		$this->load->model("Datareservasi");
+		$this->load->helper("tanggalreservasi");
+		
 		$data['dataKegiatan'] = $this->Datareservasi->get_kegiatan_by_id($idKegiatan);
 		if ($data['dataKegiatan']) {
 			$this->load->view("detil_kegiatan", $data);

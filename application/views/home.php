@@ -10,7 +10,6 @@
 				</h3>
 			</div>
 			<div class="panel-body">
-				<ul class="media-list" style="font-size: 1.3em;">
 				<?php
 if (! empty ( $kegiatanTerdekat [0] )) {
 	$waktuKegiatan = strtotime ( $kegiatanTerdekat [0]->waktuMulaiPinjam );
@@ -19,10 +18,11 @@ if (! empty ( $kegiatanTerdekat [0] )) {
 	
 	echo $this->load->tanggalIndonesia ( $waktuKegiatan, true, false );
 	echo "| ". date ( "H:i", $waktuKegiatan )."</small>";
+} else {
+	echo "<span class='glyphicon glyphicon-info-sign'></span> Tidak ada kegiatan.";
 }
 
 ?>
-
 			</div>
 		</div>
 		<div class="panel panel-default">
@@ -32,30 +32,36 @@ if (! empty ( $kegiatanTerdekat [0] )) {
 				</h3>
 			</div>
 			<div class="panel-body">
-			<ul>
 				<?php
-foreach ( $kegiatanTerdekat as $itemKegiatan ) {
-	echo "<li class=\"media\">\n";
-	echo "	<div class=\"media-left\">\n";
-	echo "		<a href=\"#\">\n";
-	echo "			<img class=\"media-object\" src=\"" . base_url ( "/assets/images/hmif_32.png" ) . "\"\n";
-	echo "				alt=\"ICO\" style=\"width:32px;height:32px;\">\n";
-	echo "		</a>\n";
-	echo "	</div>\n";
-	echo "	<div class=\"media-body\">\n";
-	echo "		<h4 class=\"media-heading\"><a href=\"#\" onclick=\"return detil_event(" . $itemKegiatan->idReservasi . ");\">" . htmlspecialchars ( $itemKegiatan->kegiatan ) . "</a></h4>\n";
-	echo "			<p>Oleh: " . htmlspecialchars ( $itemKegiatan->penyelenggara ) . "</p>\n";
-	echo "	</div>\n";
-	echo "</li>\n";
+if (count($kegiatanTerdekat)) {
+	echo "<ul>\n";
+	foreach ( $kegiatanTerdekat as $itemKegiatan ) {
+		echo "<li class=\"media\">\n";
+		echo "	<div class=\"media-left\">\n";
+		echo "		<a href=\"#\">\n";
+		echo "			<img class=\"media-object\" src=\"" . base_url ( "/assets/images/hmif_32.png" ) . "\"\n";
+		echo "				alt=\"ICO\" style=\"width:32px;height:32px;\">\n";
+		echo "		</a>\n";
+		echo "	</div>\n";
+		echo "	<div class=\"media-body\">\n";
+		echo "		<h4 class=\"media-heading\"><a href=\"#\" onclick=\"return detil_event(" . $itemKegiatan->idReservasi . ");\">" . htmlspecialchars ( $itemKegiatan->kegiatan ) . "</a></h4>\n";
+		echo "			<p>Oleh: " . htmlspecialchars ( $itemKegiatan->penyelenggara ) . "</p>\n";
+		echo "	</div>\n";
+		echo "</li>\n";
+	}
+	echo "</ul>\n";
+} else {
+	echo "<span class='glyphicon glyphicon-info-sign'></span> Tidak ada kegiatan.";
 }
-?></ul>
+
+?>
 			</div>
 		</div>
 
 	</div>
 </div>
 <div class="col-md-4">
-	<div class="panel panel-default">
+	<!-- <div class="panel panel-default">
 		<div class="panel-heading">
 			<h3 class="panel-title">
 				<span class="glyphicon glyphicon-calendar"></span> Kalendar Kegiatan
@@ -64,7 +70,7 @@ foreach ( $kegiatanTerdekat as $itemKegiatan ) {
 		<div class="panel-body">
 			<div id="datepicker"></div>
 		</div>
-	</div>
+	</div>  -->
 
 	<div class="panel panel-default">
 		<div class="panel-heading">
@@ -75,8 +81,7 @@ foreach ( $kegiatanTerdekat as $itemKegiatan ) {
 		<div class="panel-body">
 			<ol>
 				<li>Mengisi formulir yang telah disediakan.</li>
-				<li>Datang ke ruang jurusan ATAU upload surat permohonan peminjaman
-					untuk konfirmasi dalam kurang dari 3 jam dari pemesanan</li>
+				<li>Datang ke ruang jurusan untuk konfirmasi <b>dalam kurang dari 3 jam dari pemesanan</b></li>
 				<li>Proses reservasi melalui SIPEDANG telah selesai</li>
 			</ol>
 		</div>
